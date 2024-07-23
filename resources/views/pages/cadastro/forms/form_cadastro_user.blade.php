@@ -83,7 +83,7 @@
 <div class="row mb-3">
     <div class="col-sm">
         <label for="foto" class="form-label">Foto</label>
-        <input type="file" class="form-control border-primary" id="foto" name="foto" required>
+        <input type="file" class="form-control border-primary" id="foto" name="foto">
     </div>
 
     <div class="col-sm">

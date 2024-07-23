@@ -64,20 +64,31 @@ class login extends Controller
             ]);
         }
 
-        $fotoPath = null;
+        if($request->hasFile('foto')){
+            $fotoPath = null;
 
-        $arquivo = $request->file('foto');
-        $fotoPath = $arquivo->store('foto_perfil', 'public');
+            $arquivo = $request->file('foto');
+            $fotoPath = $arquivo->store('foto_perfil', 'public');
 
-        $dado = Dado::create([
-            'user_id' => $user->id,
-            'nome' => $request->nome,
-            'cpf' => $request->cpf,
-            'rg' => $request->rg,
-            'sexo' => $request->sexo,
-            'telefone' => $request->telefone,
-            'foto' => $fotoPath
-        ]);
+            $dado = Dado::create([
+                'user_id' => $user->id,
+                'nome' => $request->nome,
+                'cpf' => $request->cpf,
+                'rg' => $request->rg,
+                'sexo' => $request->sexo,
+                'telefone' => $request->telefone,
+                'foto' => $fotoPath
+            ]);
+        }else{
+            $dado = Dado::create([
+                'user_id' => $user->id,
+                'nome' => $request->nome,
+                'cpf' => $request->cpf,
+                'rg' => $request->rg,
+                'sexo' => $request->sexo,
+                'telefone' => $request->telefone,
+            ]);
+        }
 
         return redirect()->route('home.index')->with('success', 'Usuario cadastrado com sucesso');
     }

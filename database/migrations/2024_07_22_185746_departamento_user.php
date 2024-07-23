@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departamento_usuario', function (Blueprint $table) {
+        Schema::create('departamento_user', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('departamento_id')->constrained('departamentos');
             $table->timestamps();

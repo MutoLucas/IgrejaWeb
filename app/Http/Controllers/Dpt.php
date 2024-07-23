@@ -4,13 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Departamento;
+use App\Models\DepartamentoUsuario;
+use App\Models\User;
 
 class Dpt extends Controller
 {
     public function index(Request $request){
         $dpts = Departamento::where('nome', 'like', '%'.$request->busca.'%')->orderBy('nome', 'asc')->paginate(3);
         //dd($dpts);
-        return view('pages.dpt.dpt_home', compact('dpts'));
+
+        foreach($dpts as $dpt){
+            $dptQtdPessoa[] = DepartamentoUsuario::where('departamento_id', $dpt->id)->count();
+        }
+
+        $allDpt = Departamento::all();
+        $allUser = User::all();
+        //dd($allUser);
+
+        $pessoa_dpt = [];
+
+
+
+        return view('pages.dpt.dpt_home', compact('dpts','dptQtdPessoa'));
     }
 
     public function criarDpt(Request $request){
