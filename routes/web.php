@@ -19,3 +19,4 @@ Route::post('/perfil/edit/{id}', [Controller::Class, 'editUser'])->name('edit.up
 Route::get('/departamentos', [Dpt::class, 'index'])->name('dpt.index');
 Route::post('/departamentos/criar', [Dpt::class, 'criarDpt'])->name('dpt.criar');
 Route::get('/departamentos/excluir/{id}', [Dpt::class, 'excluirDpt'])->name('dpt.excluir');
+Route::post('/departamento/adicionar/pessoa/{id}', [Dpt::class, 'adicionarPessoa'])->name('dpt.adicionar');

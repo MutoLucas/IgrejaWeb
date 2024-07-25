@@ -10,22 +10,51 @@ use App\Models\User;
 class Dpt extends Controller
 {
     public function index(Request $request){
-        $dpts = Departamento::where('nome', 'like', '%'.$request->busca.'%')->orderBy('nome', 'asc')->paginate(3);
-        //dd($dpts);
-
-        foreach($dpts as $dpt){
-            $dptQtdPessoa[] = DepartamentoUsuario::where('departamento_id', $dpt->id)->count();
+        if(auth()->user()->tipo != 'admin' && auth()->user()->tipo != 'pastor' && auth()->user()->tipo != 'lider'){
+            return back()->with('error', 'você precisa de permissão para fazer isso');
         }
 
+        $dpts = Departamento::where('nome', 'like', '%'.$request->busca.'%')->paginate(4);
+        //$dpts->toArray;
+        //dd($dpts);
+
+
+        for($x = 0; $x<count($dpts);$x++){
+            $dpts[$x]['qtdPessoa'] = $qtdPessoa = DepartamentoUsuario::where('departamento_id','=',$dpts[$x]->id)->count();
+        }
+        //dd($dpts);
+
         $allDpt = Departamento::all();
-        $allUser = User::all();
-        //dd($allUser);
-
-        $pessoa_dpt = [];
+        $allUser = User::where('id', '!=', 1)->get();
+        //dd($allDpt);
 
 
+        return view('pages.dpt.dpt_home', compact('dpts','allDpt','allUser'));
+    }
 
-        return view('pages.dpt.dpt_home', compact('dpts','dptQtdPessoa'));
+    public function adicionarPessoa(Request $request, string $idDpt){
+        //dd($request);
+        if(auth()->user()->tipo != 'admin' && auth()->user()->tipo != 'pastor' && auth()->user()->tipo != 'lider'){
+            return back()->with('error', 'você precisa de permissão para fazer isso');
+        }
+
+        $dpt = Departamento::find($idDpt);
+        //dd($dpt);
+        $user = User::find($request->pessoa);
+        //dd($user);
+
+        if(DepartamentoUsuario::where('user_id',$user->id)->where('departamento_id',$dpt->id)->exists()){
+            return back()->with('error','Este membro já faz parte deste departamento');
+        }else{
+            DepartamentoUsuario::create([
+                'user_id' => $user->id,
+                'departamento_id' => $dpt->id
+            ]);
+
+            return redirect()->route('dpt.index')->with('success','Membro adicionado ao departamento');
+        }
+
+
     }
 
     public function criarDpt(Request $request){
