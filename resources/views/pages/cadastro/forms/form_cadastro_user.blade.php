@@ -114,6 +114,22 @@
     </script>
 </div>
 
-<button class="btn btn-primary">
+<div class="g-recaptcha mb-2" data-sitekey="6LdGCxkqAAAAAMQ627S_gX0E4PVD2kd7sV9Bzxxy"></div>
+
+
+<button class="btn btn-primary" onclick="return valida()">
     Cadastrar
 </button>
+
+<script>
+    function valida(){
+        if(grecaptcha.getResponse() == ""){
+            alert("VocÊ precisa marcar o reCaptcha");
+            return false;
+        }
+    }
+</script>
+
+
+
+

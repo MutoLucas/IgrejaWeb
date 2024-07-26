@@ -33,7 +33,33 @@ class login extends Controller
     }
 
     public function storeUser(Request $request){
-        //dd($request);
+        //dd($request['g-recaptcha-response']);
+
+        if(empty($request['g-recaptcha-response'])){
+            return back()->with('error', 'Você precisa responder o reCaptcha');
+        }else{
+            $url = "https://www.google.com/recaptcha/api/siteverify";
+            $secret = "6LdGCxkqAAAAAFnLtlwOvwkV1nIRbfMsUQGzJS0g";
+            $response = $request['g-recaptcha-response'];
+
+            $call = curl_init($url);
+            curl_setopt($call, CURLOPT_POST, 1);
+            curl_setopt($call, CURLOPT_POSTFIELDS, http_build_query([
+                'secret' => $secret,
+                'response' => $response
+            ]));
+            curl_setopt($call, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($call, CURLOPT_HEADER, 0);
+            curl_setopt($call, CURLOPT_FOLLOWLOCATION, true);
+
+            $resultado = curl_exec($call);
+            $resultado = json_decode($resultado);
+            //dd($resultado);
+
+            if($resultado->success === false){
+                return back()->with('error', 'Captcha Inválido');
+            }
+        }
 
         if(User::where('email', $request->email)->exists() || Dado::where('cpf', $request->cpf)->exists() || Dado::where('rg', $request->rg)->exists()){
             return back()->with('error', 'Usuario já existente');
