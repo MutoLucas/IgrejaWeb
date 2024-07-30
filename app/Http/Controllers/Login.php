@@ -65,6 +65,10 @@ class login extends Controller
             return back()->with('error', 'Usuario já existente');
         }
 
+        if(User::where('apelido', $request->apelido)->exists()){
+            return back()->with('error', 'Apelido já existente');
+        }
+
         $request->cpf = str_replace(['.','-'], '', $request->cpf);
         $request->rg = str_replace('.', '', $request->rg);
         $request->telefone = str_replace(['(',')',' ','-'], '', $request->telefone);

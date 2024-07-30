@@ -22,7 +22,7 @@
         <div class="col-sm">
             <form action="{{ route('dpt.index') }}" method="get" class="row">
                 <div class="input-group">
-                    <input type="text" name="busca" class="form-control border-primary" placeholder="Pesquisa de Departamento">
+                    <input type="text" name="buscaDpt" class="form-control border-primary" placeholder="Pesquisa de Departamento">
                     <button type="submit" class="btn btn btn-outline-primary">Buscar</button>
                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ModalDpt">
                         <i class="bi bi-plus"></i>
@@ -47,7 +47,7 @@
                                 <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#ModalPessoaAdd-{{ $dpt->id }}">
                                     <i class="bi bi-person-plus"></i>
                                 </button>
-                                <div class="modal fade" id="ModalPessoaAdd-{{ $dpt->id }}" tabindex="-1" aria-labelledby="exampleModalLabel-{{ $dpt->id }}" aria-hidden="true">
+                                <div class="modal fade" id="ModalPessoaAdd-{{ $dpt->id }}" tabindex="-1" aria-labelledby="ModalLabel-{{ $dpt->id }}" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -81,9 +81,28 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="{{ route('dpt.excluir', $dpt->id) }}" class="btn btn-sm btn-danger ms-2">
+
+                                <button class="btn btn-sm btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#ModalExcluirDpt-{{ $dpt->id }}">
                                     <i class="bi bi-building-dash"></i>
-                                </a>
+                                </button>
+                                <div class="modal fade" id="ModalExcluirDpt-{{ $dpt->id }}" tabindex="-1" aria-labelledby="ModalLabel-{{ $dpt->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                Deseja realmente excluir o departamento {{ $dpt->nome }}?
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <p>Ao excluir este departamento, irá excluir todas as relações de mambros da igreja que estão vinculados a este departamento </p>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">fechar</button>
+                                                <a href="{{ route('dpt.excluir', $dpt->id) }}" class="btn btn-danger">Excluir</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -94,6 +113,51 @@
         </div>
 
         <div class="col-sm">
+            <form action="{{ route('dpt.index') }}" method="get" class="row">
+                <div class="input-group">
+                    <input type="text" name="buscaApelido" class="form-control border-primary" placeholder="Apelido">
+                    <input type="text" name="buscaDpt2" class="form-control border-primary" placeholder="Departamento">
+                    <button type="submit" class="btn btn btn-outline-primary">Buscar</button>
+                </div>
+            </form>
+            <table class="table mt-2">
+                <thead class="table-dark">
+                    <tr class="text-center">
+                        <th scope="col">Apelido</th>
+                        <th scope="col">Departamento</th>
+                        <th scope="col">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($pessoaDpt as $pessoa)
+                    <tr class="text-center table-primary">
+                        <td>{{ $pessoa->nome }}</td>
+                        <td>{{ $pessoa->departamento }}</td>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#ExcluirPessoa-{{ $pessoa->id }}">
+                                    <i class="bi bi-person-dash"></i>
+                                </button>
+                                <div class="modal fade" id="ExcluirPessoa-{{ $pessoa->id }}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                Deseja realmente desvincular {{ $pessoa->nome }} do departamento {{ $pessoa->departamento }}?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">fechar</button>
+                                                <a href="{{ route('dpt.desvincular', ['nome_pessoa' => $pessoa->nome, 'nome_dpt' => $pessoa->departamento]) }}" class="btn btn-danger">Desvincular</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $pessoaDpt->links() }}
         </div>
     </div>
 </div>
