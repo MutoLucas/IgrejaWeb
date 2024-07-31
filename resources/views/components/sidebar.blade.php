@@ -1,6 +1,6 @@
 <nav class="navbar bg-dark navbar-expand-sm">
     <div class="container">
-        <a href="" class="navbar-brand col"><img src="{{ asset('imagens/logo_verbo.png') }}" alt=""></a>
+        <a href="{{ route('home.index') }}" class="navbar-brand col"><img src="{{ asset('imagens/logo_verbo.png') }}" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavbar"><i class="bi bi-list text-white"></i></button>
         <div class="collapse navbar-collapse col" id="menuNavbar">
             <div class="navbar-nav">

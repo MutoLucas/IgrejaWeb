@@ -5,15 +5,31 @@
 @section('content')
 
 @if(Session::get('error'))
-<div class="alert alert-danger p-3 text-center">
+<div id="menssage" class="alert alert-danger p-3 text-center">
     {{ Session::get('error') }}
 </div>
+<script>
+    setTimeout(function() {
+        var menssage = document.getElementById('menssage');
+        if (menssage) {
+            menssage.style.display = 'none';
+        }
+    }, 4000);
+</script>
 @endif
 
 @if(Session::Get('success'))
-<div class="alert alert-success p-3 text-center">
+<div id="menssage" class="alert alert-success p-3 text-center">
     {{ Session::get('success') }}
 </div>
+<script>
+    setTimeout(function() {
+        var menssage = document.getElementById('menssage');
+        if (menssage) {
+            menssage.style.display = 'none';
+        }
+    }, 4000);
+</script>
 @endif
 
 <div class="container p-3">
