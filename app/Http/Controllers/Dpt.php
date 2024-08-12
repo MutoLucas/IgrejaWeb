@@ -10,29 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class Dpt extends Controller
 {
-    public function index(Request $request){
+    public function index(){
         if(auth()->user()->tipo != 'admin' && auth()->user()->tipo != 'pastor' && auth()->user()->tipo != 'lider'){
             return back()->with('error', 'você precisa de permissão para fazer isso');
         }
 
-        //Pegando todos os departamentos de pela busca
-        $dpts = Departamento::where('nome', 'like', '%'.$request->buscaDpt.'%')->paginate(4,['*'],'dptPage');
-        //dd($dpts);
-
-        //adicionando a quantidade de pessoas vnculadas a cada departamento
-        for($x = 0; $x<count($dpts);$x++){
-            $dpts[$x]['qtdPessoa'] = $qtdPessoa = DepartamentoUsuario::where('departamento_id','=',$dpts[$x]->id)->count();
-        }
-        //dd($dpts);
-
-        //Pegando todos os usuarios
-        $allUser = User::where('id', '!=', 1)->get();
-        //dd($allUser)
-
-        $pessoaDpt = DB::table('departamento_user as du')->join('users as u', 'u.id', '=', 'du.user_id')->join('departamentos as d', 'd.id', '=', 'du.departamento_id')->select('du.id','u.apelido as nome', 'd.nome as departamento')->where('u.apelido','like','%'.$request->buscaApelido.'%')->where('d.nome','like','%'.$request->buscaDpt2.'%')->paginate(4,['*','pessoaPage']);
-
-        //dd($pessoaDpt);
-        return view('pages.dpt.dpt_home', compact('dpts','allUser','pessoaDpt'));
+        return view('pages.dpt.dpt_home');
     }
 
     public function adicionarPessoa(Request $request, string $idDpt){

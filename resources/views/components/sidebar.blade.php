@@ -5,14 +5,14 @@
         <div class="collapse navbar-collapse col" id="menuNavbar">
             <div class="navbar-nav">
                 <a href="{{ route('home.index') }}" class="nav-link link-light"><i class="bi bi-house-fill"></i> Home</a>
-                <a href="" class="nav-link link-light">menu 2</a>
-                <a href="" class="nav-link link-light">menu 3</a>
-                <a href="" class="nav-link link-light">menu 4</a>
                 @if(auth()->check())
-                    @if(auth()->user()->tipo === 'pastor')
-                    <a href="{{ route('dpt.index') }}" class="nav-link link-light"><i class="bi bi-building-fill"></i> Departamentos</a>
-                    <a href="" class="nav-link link-light">DashBoard</a>
-                    @endif
+                <a href="{{ route('calendario.index', auth()->user()->id ) }}" class="nav-link link-light"><i class="bi bi-calendar2-week-fill"></i> Calendario</a>
+                @endif
+                
+                @if(auth()->check())
+                @if(auth()->user()->tipo === 'pastor')
+                <a href="{{ route('dpt.index') }}" class="nav-link link-light"><i class="bi bi-building-fill"></i> Departamentos</a>
+                @endif
                 @endif
             </div>
 
@@ -27,6 +27,7 @@
                 </ul>
             </div>
             @else
+
             <div class="dropdown ms-auto">
                 <a href="#" class="d-block link-body-emphasis text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
                     @if(auth()->user()->tipo === 'pastor')
@@ -38,14 +39,12 @@
                     @endif
 
                     @if(auth()->user()->tipo === 'usuario' || auth()->user()->tipo === 'lider')
-                    <strong class="text-light">{{ auth()->user()->apelido }}</strong>
+                    <strong class="text-light dropdown-toggle">{{ auth()->user()->apelido }}</strong>
                     <img src="{{ asset('storage/' . auth()->user()->dado->foto) }}" alt="mdo" width="32" height="32" class="rounded-circle">
                     @endif
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end text-small">
-                    <li><a class="dropdown-item" href="#">opção</a></li>
                     <li><a class="dropdown-item" href="{{ route('edit.index', auth()->user()->id) }}"><i class="bi bi-person-fill-gear"></i> Editar Perfil</a></li>
-                    <li><a class="dropdown-item" href="#">opção</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

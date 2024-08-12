@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\Dpt;
+use App\Http\Controllers\Calendario;
 
 Route::get('/', [Controller::class, 'show_home'])->name('home.index');
 
@@ -21,3 +22,7 @@ Route::post('/departamentos/criar', [Dpt::class, 'criarDpt'])->name('dpt.criar')
 Route::get('/departamentos/excluir/{id}', [Dpt::class, 'excluirDpt'])->name('dpt.excluir');
 Route::post('/departamento/adicionar/pessoa/{id}', [Dpt::class, 'adicionarPessoa'])->name('dpt.adicionar');
 Route::get('/departamento/desvincular/{nome_pessoa}/{nome_dpt}', [Dpt::class, 'desvincularPessoa'])->name('dpt.desvincular');
+
+Route::get('/calendario/home/{id}', [Calendario::class, 'showCalendario'])->name('calendario.index');
+Route::post('/calendario/criar', [Calendario::class, 'criarEvento'])->name('calendario.criar');
+

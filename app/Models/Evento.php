@@ -11,7 +11,9 @@ class Evento extends Model
 
     protected $fillable = [
         'descricao',
-        'data'
+        'data',
+        'user_id',
+        'departamento_id'
     ];
 
     public function usuario (){
@@ -20,5 +22,9 @@ class Evento extends Model
 
     public function departamento (){
         return $this->belongsTo(Departamento::class);
+    }
+
+    public function dado(){
+        return $this->belongsTo(Dado::class, 'user_id','user_id');
     }
 }

@@ -26,4 +26,8 @@ class Dado extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function evento(){
+        return $this->hasMany(Evento::class, 'user_id','user_id');
+    }
 }

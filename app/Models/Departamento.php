@@ -17,4 +17,8 @@ class Departamento extends Model
     public function usuarios (){
         return $this->belongsToMany(User::class);
     }
+
+    public function evento(){
+        return $this->hasMany(Evento::class);
+    }
 }
