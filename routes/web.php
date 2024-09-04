@@ -23,6 +23,4 @@ Route::get('/departamentos/excluir/{id}', [Dpt::class, 'excluirDpt'])->name('dpt
 Route::post('/departamento/adicionar/pessoa/{id}', [Dpt::class, 'adicionarPessoa'])->name('dpt.adicionar');
 Route::get('/departamento/desvincular/{nome_pessoa}/{nome_dpt}', [Dpt::class, 'desvincularPessoa'])->name('dpt.desvincular');
 
-Route::get('/calendario/home/{id}', [Calendario::class, 'showCalendario'])->name('calendario.index');
-Route::post('/calendario/criar', [Calendario::class, 'criarEvento'])->name('calendario.criar');
-
+Route::get('/calendario/home', [Calendario::class, 'showCalendario'])->name('calendario.index');

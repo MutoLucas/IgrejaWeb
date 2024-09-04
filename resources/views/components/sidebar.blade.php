@@ -1,14 +1,14 @@
 <nav class="navbar bg-dark navbar-expand-sm">
     <div class="container">
-        <a href="{{ route('home.index') }}" class="navbar-brand col"><img src="{{ asset('imagens/logo_verbo.png') }}" alt=""></a>
+        <a href="{{ route('home.index') }}" class="navbar-brand"><img src="{{ asset('imagens/logo_verbo.png') }}" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavbar"><i class="bi bi-list text-white"></i></button>
-        <div class="collapse navbar-collapse col" id="menuNavbar">
+        <div class="collapse navbar-collapse" id="menuNavbar">
             <div class="navbar-nav">
                 <a href="{{ route('home.index') }}" class="nav-link link-light"><i class="bi bi-house-fill"></i> Home</a>
                 @if(auth()->check())
-                <a href="{{ route('calendario.index', auth()->user()->id ) }}" class="nav-link link-light"><i class="bi bi-calendar2-week-fill"></i> Calendario</a>
+                <a href="{{ route('calendario.index') }}" class="nav-link link-light"><i class="bi bi-calendar2-week-fill"></i> Calendario</a>
                 @endif
-                
+
                 @if(auth()->check())
                 @if(auth()->user()->tipo === 'pastor')
                 <a href="{{ route('dpt.index') }}" class="nav-link link-light"><i class="bi bi-building-fill"></i> Departamentos</a>
@@ -17,40 +17,44 @@
             </div>
 
             @if(!auth()->check())
-            <div class="dropdown ms-auto">
-                <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-list text-white"></i>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Login</button></li>
-                    <li><a class="dropdown-item" href="{{ route('cadastro.index') }}">Cadastrar-se</a></li>
-                </ul>
-            </div>
+                <div class="dropdown ms-auto">
+                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-list text-white"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Login</button></li>
+                        <li><a class="dropdown-item" href="{{ route('cadastro.index') }}">Cadastrar-se</a></li>
+                    </ul>
+                </div>
             @else
+                <div class="d-flex flex-row ms-auto me-1" style="">
+                    <div class="dropdown" style="">
+                        <button class="btn btn-sm text-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @if(auth()->user()->tipo === 'admin')
+                            <p class="text-light dropdown-toggle">Admin </p>
+                            @endif
 
-            <div class="dropdown ms-auto">
-                <a href="#" class="d-block link-body-emphasis text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
-                    @if(auth()->user()->tipo === 'pastor')
-                    <strong class="text-light dropdown-toggle">Pastor </strong>
-                    @endif
+                            @if(auth()->user()->tipo === 'usuario' || auth()->user()->tipo === 'lider' || auth()->user()->tipo === 'pastor')
+                            <strong class="text-light dropdown-toggle">{{ auth()->user()->apelido }}</strong>
+                                @if(auth()->user()->dado->foto == null)
+                                @else
+                                <img src="{{ asset('storage/' . auth()->user()->dado->foto) }}" alt="mdo" width="32" height="32" class="rounded-circle">
+                                @endif
+                            @endif
+                        </button>
 
-                    @if(auth()->user()->tipo === 'admin')
-                    <strong class="text-light dropdown-toggle">Admin </strong>
-                    @endif
+                        <ul class="dropdown-menu text-small">
+                            <li><a class="dropdown-item" href="{{ route('edit.index', auth()->user()->id) }}"><i class="bi bi-person-fill-gear"></i> Editar Perfil</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{{ route('logout') }}">Sair</a></li>
+                        </ul>
+                    </div>
 
-                    @if(auth()->user()->tipo === 'usuario' || auth()->user()->tipo === 'lider')
-                    <strong class="text-light dropdown-toggle">{{ auth()->user()->apelido }}</strong>
-                    <img src="{{ asset('storage/' . auth()->user()->dado->foto) }}" alt="mdo" width="32" height="32" class="rounded-circle">
-                    @endif
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end text-small">
-                    <li><a class="dropdown-item" href="{{ route('edit.index', auth()->user()->id) }}"><i class="bi bi-person-fill-gear"></i> Editar Perfil</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="{{ route('logout') }}">Sair</a></li>
-                </ul>
-            </div>
+                    <livewire:message-popup/>
+
+                </div>
             @endif
 
         </div>

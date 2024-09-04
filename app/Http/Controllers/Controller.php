@@ -42,57 +42,102 @@ class Controller
         $dadosUser = $request->only(['apelido','email']);
         $dadosPessoa = $request->only(['nome','sexo','cpf','rg','naturalidade','uf_naturalidade','data_nasci','estado_civil','telefone','foto']);
 
-        //dd($dadosPessoa);
+        //dd($dadosEndereco);
+
+        $somaEscolaridade = 0;
+        foreach($dadosEscolaridade as $key){
+            if($key != null){
+                $somaEscolaridade += 1;
+            }
+        }
+
+        $somaEndereco = 0;
+        foreach($dadosEndereco as $key){
+            if($key != null){
+                $somaEndereco += 1;
+            }
+        }
+
+        $somaDevocao = 0;
+        foreach($dadosDevocao as $key){
+            if($key != null){
+                $somaDevocao += 1;
+            }
+        }
+
+        $somaPessoa = 0;
+        foreach($dadosPessoa as $key){
+            if($key != null){
+                $somaPessoa += 1;
+            }
+        }
 
         $user = User::find($id);
 
         if($request->hasFile('foto')){
             $fotoExistente = $user->dado->foto;
             //dd($fotoExistente);
-            Storage::disk('public')->delete($fotoExistente);
-            $fotoPath = null;
-            $arquivo = $request->file('foto');
-            $fotoPath = $arquivo->store('foto_perfil', 'public');
-            $dadosPessoa['foto'] = $fotoPath;
+            if($fotoExistente == null){
+                $fotoPath = null;
+                $arquivo = $request->file('foto');
+                $fotoPath = $arquivo->store('foto_perfil', 'public');
+                $dadosPessoa['foto'] = $fotoPath;
+            }else{
+                Storage::disk('public')->delete($fotoExistente);
+                $fotoPath = null;
+                $arquivo = $request->file('foto');
+                $fotoPath = $arquivo->store('foto_perfil', 'public');
+                $dadosPessoa['foto'] = $fotoPath;
+            }
         }
 
         $user->update($dadosUser);
-
-        $dadosEscolaridade['user_id'] = $id;
-        $dadosDevocao['user_id'] = $id;
-        $dadosEndereco['user_id'] = $id;
 
         $devocao = Devocao::where('user_id', $id)->First();
         $escolaridade = Escolaridade::where('user_id',$id)->First();
         $endereco = Endereco::where('user_id',$id)->First();
         $pessoa = Dado::where('user_id',$id)->First();
+        //dd($dadosDevocao);
 
-        if(empty($devocao)){
-            Devocao::create($dadosDevocao);
-        }else{
-            $devocao->update($dadosDevocao);
+        if($somaDevocao > 0){
+            if(empty($devocao)){
+                $dadosDevocao['user_id'] = $id;
+                Devocao::create($dadosDevocao);
+            }else{
+                $devocao->update($dadosDevocao);
+            }
         }
 
-        if(empty($escolaridade)){
-            Escolaridade::create($dadosEscolaridade);
-        }else{
-            $escolaridade->update($dadosEscolaridade);
+        if($somaEscolaridade > 0){
+            if(empty($escolaridade)){
+                $dadosEscolaridade['user_id'] = $id;
+                Escolaridade::create($dadosEscolaridade);
+            }else{
+                $escolaridade->update($dadosEscolaridade);
+            }
         }
 
-        if(empty($endereco)){
-            Endereco::create($dadosEndereco);
-        }else{
-            $endereco->update($dadosEndereco);
+
+        if($somaEndereco > 0){
+            if(empty($endereco)){
+                $dadosEndereco['user_id'] = $id;
+                Endereco::create($dadosEndereco);
+            }else{
+                $endereco->update($dadosEndereco);
+            }
         }
 
-        if(empty($pessoa)){
-            Dado::create($dadosPessoa);
-        }else{
-            $pessoa->update($dadosPessoa);
+
+        if($somaPessoa > 0){
+            if(empty($pessoa)){
+                Dado::create($dadosPessoa);
+            }else{
+                $pessoa->update($dadosPessoa);
+            }
         }
+
 
         return redirect()->route('home.index')->with('success','Usuario Alterado com sucesso');
-
 
     }
 

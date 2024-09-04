@@ -6,10 +6,10 @@
         <div class="container row">
             <div class="col-sm input-group">
                 <input type="text" wire:model="busca" class="form-control border-primary" placeholder="Nome departamento">
-                <button type="button" class="btn btn-outline-primary" wire:click="resetBusca"><i class="bi bi-arrow-clockwise"></i></button>
             </div>
 
             <div class="col-sm-2 btn-group">
+                <button type="button" class="btn btn-outline-primary" wire:click="resetBusca"><i class="bi bi-arrow-clockwise"></i></button>
                 <button type="button" class="btn btn-sm btn-outline-primary" wire:click="buscarDpt"><i class="bi bi-search"></i></button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-bs-target="#criarDpt" data-bs-toggle="modal"><i class="bi bi-plus-lg"></i></button>
             </div>

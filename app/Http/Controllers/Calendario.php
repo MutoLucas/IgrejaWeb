@@ -11,33 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class Calendario extends Controller
 {
-    public function showCalendario(String $id){
-        $user = User::find($id);
-        //dd($tipo);
-
-        if($user->tipo != 'admin' && $user->tipo != 'pastor' && $user->tipo != 'lider'){
-            $users = User::where('id','!=',1)->get();
-            //dd($users);
-
-            $dpts = Departamento::get();
-            //dd($dpts);
-
-            $eventos = DB::table('eventos as e')->join('departamentos as de','de.id','=','e.departamento_id')->join('dados as da','da.user_id','=','e.user_id')->selectRaw('de.nome as departamento, da.nome, DATE_FORMAT(e.data,"%d-%m-%Y") as data, e.descricao')->where('e.user_id','=',$user->id)->get();
-            //dd($eventos);
-
-            return view('pages.calendario.homeCalendario', compact('users','dpts','eventos'))->with('mesage','Você ainda não tem escalas para cumprir');
+    public function showCalendario(){
+        if(auth()->check() && auth()->user()->tipo == 'pastor' || auth()->user()->tipo == 'admin'){
+            return view('pages.calendario.homeCalendario');
+        }else{
+            return redirect()->back()->with('error','VocÊ não tem permissão para acessar esta área');
         }
 
-        $users = User::where('id','!=',1)->get();
-        //dd($users);
-
-        $dpts = Departamento::get();
-        //dd($dpts);
-
-        $eventos = DB::table('eventos as e')->join('departamentos as de','de.id','=','e.departamento_id')->join('dados as da','da.user_id','=','e.user_id')->selectRaw('e.id,de.nome as departamento, da.nome, DATE_FORMAT(e.data,"%d-%m-%Y") as data, e.descricao')->get();
-        dd($eventos);
-
-        return view('pages.calendario.homeCalendario', compact('users','dpts','eventos'));
     }
 
     public function criarEvento(Request $request){

@@ -102,7 +102,7 @@
                 <div class="col-sm">
                     <label class="form-label" for="sexo">Sexo</label>
                     <select class="form-select border-primary" id="sexo" name="sexo">
-                        <option>Escolha...</option>
+                        <option value="">Escolha...</option>
                         <option value="M" @if (isset($user->dado->sexo)) @selected($user->dado->sexo == 'M') @endif>Masculino</option>
                         <option value="F" @if (isset($user->dado->sexo)) @selected($user->dado->sexo == 'F') @endif>Femino</option>
                     </select>
@@ -153,7 +153,7 @@
                     <div class="">
                         <label class="form-label" for="estado civil">Estado Civil</label>
                         <select class="form-select border-primary" name="estado_civil">
-                            <option>Escolha...</option>
+                            <option value="">Escolha...</option>
                             <option value="solteiro" @if (isset($user->dado->estado_civil)) @selected($user->dado->estado_civil == 'solteiro') @endif>Solteiro</option>
                             <option value="casado" @if (isset($user->dado->estado_civil)) @selected($user->dado->estado_civil == 'casado') @endif>Casado</option>
                             <option value="viuvo" @if (isset($user->dado->estado_civil)) @selected($user->dado->estado_civil == 'viuvo') @endif>Viuvo</option>
@@ -236,7 +236,7 @@
                     <div class="col-sm">
                         <label class="form-label" for="rhema">Estado Rhema</label>
                         <select class="form-select border-primary" name="rhema">
-                            <option>Escolha...</option>
+                            <option value="">Escolha...</option>
                             <option value="sim" @if (isset($user->devocao->rhema)) @selected($user->devocao->rhema == 'sim') @endif>Finalizado</option>
                             <option value="nao" @if (isset($user->devocao->rhema)) @selected($user->devocao->rhema == 'nao') @endif>Não Fiz</option>
                             <option value="cursando" @if (isset($user->devocao->rhema)) @selected($user->devocao->rhema == 'cursando') @endif>Cursando</option>
@@ -248,7 +248,7 @@
                     <div class="col-sm">
                         <label class="form-label" for="batismo_aguas">Batismo nas aguas</label>
                         <select class="form-select border-primary" name="batismo_aguas">
-                            <option>Escolha...</option>
+                            <option value="">Escolha...</option>
                             <option value="sim" @if (isset($user->devocao->batismo_aguas)) @selected($user->devocao->batismo_aguas == 'sim') @endif>Fui batizado nas aguas</option>
                             <option value="nao" @if (isset($user->devocao->batismo_aguas)) @selected($user->devocao->batismo_aguas == 'nao') @endif>Não fui batizado nas aguas</option>
                         </select>
@@ -257,7 +257,7 @@
                     <div class="col-sm">
                         <label class="form-label" for="tipo_batismo_aguas">Tipo de batismo nas aguas</label>
                         <select class="form-select border-primary" name="tipo_batismo_aguas">
-                            <option>Escolha...</option>
+                            <option value="">Escolha...</option>
                             <option value="imersao" @if (isset($user->devocao->tipo_batismo_aguas)) @selected($user->devocao->tipo_batismo_aguas == 'imersao') @endif>Fui batizado por Imersão</option>
                             <option value="Aspersão" @if (isset($user->devocao->tipo_batismo_aguas)) @selected($user->devocao->tipo_batismo_aguas == 'aspersao') @endif>Fui batizado por Aspersão</option>
                         </select>
@@ -266,7 +266,7 @@
                     <div class="col-sm">
                         <label class="form-label" for="batismo_espirito">Batismo no Espirito Santo</label>
                         <select class="form-select border-primary" name="batismo_espirito">
-                            <option>Escolha...</option>
+                            <option value="">Escolha...</option>
                             <option value="sim" @if (isset($user->devocao->batismo_espirito)) @selected($user->devocao->batismo_espirito == 'sim') @endif>Fui batizado no Espirito Santo</option>
                             <option value="nao" @if (isset($user->devocao->batismo_espirito)) @selected($user->devocao->batismo_espirito == 'nao') @endif>Não fui batizado no Espirito Santo</option>
                         </select>
@@ -288,7 +288,7 @@
                     <div class="col-sm">
                         <label for="grau_instrucao" class="form-label">Grau de Instrução</label>
                         <select class="form-select border-primary" name="grau_instrucao">
-                            <option>Escolha...</option>
+                            <option value="">Escolha...</option>
                             <option value="f_i" @if(isset($user->escolaridade->grau_instrucao)) @selected($user->escolaridade->grau_instrucao == 'f_i') @endif>Fundamental Incompleto</option>
                             <option value="f_c" @if(isset($user->escolaridade->grau_instrucao)) @selected($user->escolaridade->grau_instrucao == 'f_c') @endif>Fundamental Completo</option>
                             <option value="m_i" @if(isset($user->escolaridade->grau_instrucao)) @selected($user->escolaridade->grau_instrucao == 'm_i') @endif>Ensino Médio Incompleto</option>
