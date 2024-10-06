@@ -63,4 +63,8 @@ class User extends Authenticatable
     public function evento(){
         return $this->hasMany(Evento::class);
     }
+
+    public function lider(){
+        return $this->belongsToMany(Lider::class);
+    }
 }

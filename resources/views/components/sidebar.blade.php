@@ -5,14 +5,15 @@
         <div class="collapse navbar-collapse" id="menuNavbar">
             <div class="navbar-nav">
                 <a href="{{ route('home.index') }}" class="nav-link link-light"><i class="bi bi-house-fill"></i> Home</a>
-                @if(auth()->check())
-                <a href="{{ route('calendario.index') }}" class="nav-link link-light"><i class="bi bi-calendar2-week-fill"></i> Calendario</a>
-                @endif
 
                 @if(auth()->check())
                 @if(auth()->user()->tipo === 'pastor')
                 <a href="{{ route('dpt.index') }}" class="nav-link link-light"><i class="bi bi-building-fill"></i> Departamentos</a>
                 @endif
+                @endif
+
+                @if(auth()->check())
+                <a href="{{ route('calendario.index') }}" class="nav-link link-light"><i class="bi bi-calendar2-week-fill"></i> Calendario</a>
                 @endif
             </div>
 
@@ -37,6 +38,7 @@
                             @if(auth()->user()->tipo === 'usuario' || auth()->user()->tipo === 'lider' || auth()->user()->tipo === 'pastor')
                             <strong class="text-light dropdown-toggle">{{ auth()->user()->apelido }}</strong>
                                 @if(auth()->user()->dado->foto == null)
+                                <img src="{{ asset('imagens/perfil.jpg') }}" alt="mdo" width="32" height="32" class="rounded-circle">
                                 @else
                                 <img src="{{ asset('storage/' . auth()->user()->dado->foto) }}" alt="mdo" width="32" height="32" class="rounded-circle">
                                 @endif
@@ -45,6 +47,12 @@
 
                         <ul class="dropdown-menu text-small">
                             <li><a class="dropdown-item" href="{{ route('edit.index', auth()->user()->id) }}"><i class="bi bi-person-fill-gear"></i> Editar Perfil</a></li>
+                            @if(auth()->user()->tipo == 'pastor' || auth()->user()->tipo == 'admin')
+                            <li><a class="dropdown-item" href="{{ route('pedidos.index') }}"><i class="bi bi-receipt"></i> Pedidos de Usuário</a></li>
+                            @elseif(auth()->user()->tipo == 'usuario' || auth()->user()->tipo == 'lider')
+                            <li><a class="dropdown-item" href="{{ route('pedidos.index') }}"><i class="bi bi-receipt"></i> Solicitações</a></li>
+                            @endif
+
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

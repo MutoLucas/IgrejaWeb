@@ -23,9 +23,11 @@ class Calendario extends Component
     public $buscaApelido;
     public $buscaDpt;
     public $buscaData;
+    public $dptLider;
 
     public function mount(){
         $this->id = auth()->user()->id;
+        $this->dptLider =
         $this->idPessoa = null;
         $this->idDpt = null;
         $this->dataEvento = null;
@@ -37,26 +39,38 @@ class Calendario extends Component
 
     public function render()
     {
-        $allUser = User::where('id', '!=', 1)->get();
-        //dd($allUser);
+        if(auth()->user()->tipo == 'pastor' || auth()->user()->tipo == 'admin'){
+            $allUser = User::where('id', '!=', 1)->get();
+            //dd($allUser);
 
-        $allDpt = Departamento::get();
-        //dd($allDpt);
+            $allDpt = Departamento::get();
+            //dd($allDpt);
 
-        $query = DB::table('eventos as e')->join('users as u', 'u.id', '=', 'e.user_id')
-        ->join('departamentos as d', 'd.id', '=', 'e.departamento_id')
-        ->selectRaw('u.apelido, DATE_FORMAT(e.data, "%d-%m-%Y") as data, e.descricao, d.nome')
-        ->where('u.apelido', 'like', '%'.$this->buscaApelido.'%')
-        ->where('e.data', 'like', '%'.$this->buscaData.'%')
-        ->where('d.nome', 'like', '%'.$this->buscaDpt.'%')
-        ->orderBy('e.data', 'asc')
-        ->get();
-        //dd($query);
+            $query = DB::table('eventos as e')->join('users as u', 'u.id', '=', 'e.user_id')
+            ->join('departamentos as d', 'd.id', '=', 'e.departamento_id')
+            ->selectRaw('e.id, u.apelido, DATE_FORMAT(e.data, "%d-%m-%Y") as data, e.descricao, d.nome')
+            ->where('u.apelido', 'like', '%'.$this->buscaApelido.'%')
+            ->where('e.data', 'like', '%'.$this->buscaData.'%')
+            ->where('d.nome', 'like', '%'.$this->buscaDpt.'%')
+            ->orderBy('e.data', 'asc')
+            ->get();
+            //dd($query);
 
-        return view('livewire.calendario', ['allUser' => $allUser, 'allDpt' => $allDpt, 'eventos' => $query]);
+            return view('livewire.calendario', ['allUser' => $allUser, 'allDpt' => $allDpt, 'eventos' => $query]);
+        }elseif(auth()->user()->tipo == 'lider'){
+
+        }elseif(auth()->user()->tipo == 'usuario'){
+            dd('Funfou');
+        }
+
     }
 
     public function storeEvento(){
+        $dataHoje = Carbon::now();
+
+        if($this->dataEvento < $dataHoje){
+            return redirect()->route('calendario.index')->with('error','A data não pode ser inferior a data de hoje');
+        }
 
         $query = DB::table('eventos as e')->select('data', 'user_id', 'departamento_id')->where('data', $this->dataEvento)->where('user_id', $this->idPessoa)->get();
         //dd($query);
@@ -89,6 +103,14 @@ class Calendario extends Component
 
 
 
+
+        $this->reset();
+        $this->render();
+    }
+
+    public function excluirEvento($idEvento){
+        //dd($idEvento);
+        Evento::find($idEvento)->delete();
 
         $this->reset();
         $this->render();

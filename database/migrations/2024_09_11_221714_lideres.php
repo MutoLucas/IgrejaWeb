@@ -6,20 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('pedidos', function (Blueprint $table) {
+        Schema::create('lideres', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users', 'id');
-            $table->foreignId('departamento_id')->constrained('departamentos', 'id');
-            $table->enum('status', ['pendente','aceito', 'recusada']);
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('departamento_id')->constrained('users');
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('pedidos');
+        Schema::dropIfExists('lideres');
     }
 };

@@ -76,6 +76,11 @@ class TableDpt extends Component
 
             $this->reset();
             $this->render();
+        }elseif(Departamento::where('id',$idDpt)->exists() && DepartamentoUsuario::where('departamento_id',$idDpt)->count() == 0){
+            Departamento::where('id',$idDpt)->delete();
+
+            $this->reset();
+            $this->render();
         }
     }
 

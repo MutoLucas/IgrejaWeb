@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\Dpt;
 use App\Http\Controllers\Calendario;
+use App\Http\Controllers\Pedido;
 
 Route::get('/', [Controller::class, 'show_home'])->name('home.index');
 
@@ -24,3 +25,5 @@ Route::post('/departamento/adicionar/pessoa/{id}', [Dpt::class, 'adicionarPessoa
 Route::get('/departamento/desvincular/{nome_pessoa}/{nome_dpt}', [Dpt::class, 'desvincularPessoa'])->name('dpt.desvincular');
 
 Route::get('/calendario/home', [Calendario::class, 'showCalendario'])->name('calendario.index');
+
+Route::get('/pedidos/home', [Pedido::class, 'showPedidos'])->name('pedidos.index');
