@@ -60,7 +60,16 @@ class Calendario extends Component
         }elseif(auth()->user()->tipo == 'lider'){
 
         }elseif(auth()->user()->tipo == 'usuario'){
-            dd('Funfou');
+            $query = DB::table('eventos as e')
+            ->join('departamentos as d', 'e.departamento_id', '=', 'd.id')
+            ->selectRaw(' DATE_FORMAT(e.data, "%d-%m-%Y") as data, d.nome, e.descricao')
+            ->where('e.user_id',auth()->user()->id)
+            ->where('e.data','like', '%'.$this->buscaData.'%')
+            ->orderBy('e.data', 'asc')
+            ->get();
+            //dd($query);
+
+            return view('livewire.calendario', ['eventos' => $query]);
         }
 
     }
