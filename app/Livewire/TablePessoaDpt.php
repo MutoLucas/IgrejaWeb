@@ -36,7 +36,13 @@ class TablePessoaDpt extends Component
         $allDpt = Departamento::get();
         //dd($allDpt);
 
-        $pessoaDpt = DB::table('departamento_user as du')->join('users as u', 'u.id', '=', 'du.user_id')->join('departamentos as d', 'd.id', '=', 'du.departamento_id')->select('du.id','u.apelido as nome','u.id as user_id','d.id as departamento_id','d.nome as departamento')->where('u.apelido','like','%'.$this->buscaPessoa.'%')->where('d.nome','like','%'.$this->buscaDpt.'%')->paginate(4,['*','pessoaPage']);
+        $pessoaDpt = DB::table('departamento_user as du')
+        ->join('users as u', 'u.id', '=', 'du.user_id')
+        ->join('departamentos as d', 'd.id', '=', 'du.departamento_id')
+        ->select('du.id','u.apelido as nome','u.id as user_id','d.id as departamento_id','d.nome as departamento')
+        ->where('u.apelido','like','%'.$this->buscaPessoa.'%')
+        ->where('d.nome','like','%'.$this->buscaDpt.'%')
+        ->paginate(4,['*','pessoaPage']);
         //dd($pessoaDpt);
 
         return view('livewire.table-pessoa-dpt', ['allUser' => $allUser, 'allDpt' => $allDpt, 'pessoaDpt' => $pessoaDpt]);
@@ -79,6 +85,6 @@ class TablePessoaDpt extends Component
         }else{
             return redirect()->route('dpt.index')->with('error','Este relacionamento não funciona');
         }
-        
+
     }
 }

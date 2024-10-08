@@ -5,20 +5,19 @@
 @section('content')
 
 <div class="container p-3">
-    <div class="row">
-        <div class="col-sm shadow m-2 p-3">
-            @if(auth()->user()->tipo == "admin" || auth()->user()->tipo == "pastor")
-            <livewire:tablePedidos/>
-            @else
-            <livewire:tablePedidosUsers/>
-            @endif
-
-        </div>
-
-        <div class="col-sm shadow m-2 p-3">
-
-        </div>
+    <div class="shadow mb-2 p-3">
+        @if(auth()->user()->tipo == "admin" || auth()->user()->tipo == "pastor")
+        <livewire:tablePedidos />
+        @else
+        <livewire:tablePedidosUsers />
+        @endif
     </div>
+
+    @if(auth()->user()->tipo == "admin" || auth()->user()->tipo == "pastor")
+    <div class="shadow mt-5 p-3">
+
+    </div>
+    @endif
 </div>
 
 @endsection
