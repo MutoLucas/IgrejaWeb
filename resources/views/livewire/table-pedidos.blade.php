@@ -44,22 +44,22 @@
 
                 @if($pedido->status == 'pendente')
                 <td>
-                    <button class="btn btn-sm btn-outline-success">
+                    <button class="btn btn-sm btn-outline-success" wire:click="aceitarPedido({{ $pedido->p_id }}, {{ $pedido->user_id }}, {{ $pedido->dpt_id }})">
                         Aceitar
                     </button>
-                    <button class="btn btn-sm btn-outline-warning">
+                    <button class="btn btn-sm btn-outline-warning" wire:click="recusarPedido({{ $pedido->p_id }})">
                         Recusar
                     </button>
                 </td>
                 @elseif($pedido->status == 'aceito')
                 <td>
-                    <button class="btn btn-sm btn-outline-warning">
+                    <button class="btn btn-sm btn-outline-warning" wire:click="desfazerPedido({{ $pedido->p_id }}, {{ $pedido->user_id }}, {{ $pedido->dpt_id }})">
                         Desfazer
                     </button>
                 </td>
                 @elseif($pedido->status == 'recusada')
                 <td>
-                    <button class="btn btn-sm btn-outline-danger">
+                    <button class="btn btn-sm btn-outline-danger" wire:click="desfazerPedido({{ $pedido->p_id }}, {{ $pedido->user_id }}, {{ $pedido->dpt_id }})">
                         Desfazer
                     </button>
                 </td>
@@ -69,9 +69,5 @@
             @endforeach
         </tbody>
     </table>
-
-    <div class="modal fade" id="criarLider">
-        
-    </div>
-
+    {{ $pedidos->links() }}
 </div>

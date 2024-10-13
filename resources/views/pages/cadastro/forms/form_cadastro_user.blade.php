@@ -17,7 +17,13 @@
 
     <div class="col-sm">
         <label for="apelido" class="form-label">Apelido</label>
-        <input type="text" class="form-control border-primary" id="apelido" name="apelido" maxlength="15">
+        <input type="text" class="form-control border-primary" id="apelido" name="apelido" maxlength="15" required>
+    </div>
+
+    <div class="col-sm">
+        <label for="data_nasci" class="form-label">Data de nascimento</label>
+        <input type="date" class="form-control border-primary" id="data_nasci" name="data_nasci" required>
+        <div id="dataHelp" class="form-text" style="display: none">Menor de idade</div>
     </div>
 </div>
 
@@ -117,19 +123,54 @@
 <div class="g-recaptcha mb-2" data-sitekey="6LdGCxkqAAAAAMQ627S_gX0E4PVD2kd7sV9Bzxxy"></div>
 
 
-<button class="btn btn-primary" onclick="return valida()">
+<button id="btn-cadastrar" class="btn btn-primary" onclick="return valida()" disabled>
     Cadastrar
 </button>
 
 <script>
-    function valida(){
-        if(grecaptcha.getResponse() == ""){
+    const dataInput = document.getElementById('data_nasci')
+    const btn = document.getElementById('btn-cadastrar')
+
+    function calcularIdade(dataNascimento) {
+        const hoje = new Date();
+        const nascimento = new Date(dataNascimento);
+        let idade = hoje.getFullYear() - nascimento.getFullYear();
+        const mes = hoje.getMonth() - nascimento.getMonth();
+
+        if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
+            idade--;
+        }
+
+        return idade;
+    }
+
+    dataInput.addEventListener('input', function() {
+        const dataNascimento = dataInput.value;
+        const idade = calcularIdade(dataNascimento);
+
+        if (dataNascimento === '') {
+            document.getElementById('dataHelp').style.display = 'none';
+            btn.disabled = true;
+        } else {
+            if (idade >= 18) {
+                btn.disabled = false;
+                document.getElementById('dataHelp').style.display = 'none';
+            } else {
+                btn.disabled = true;
+                document.getElementById('dataHelp').style.display = 'block';
+            }
+        }
+
+    });
+
+</script>
+
+<script>
+    function valida() {
+        if (grecaptcha.getResponse() == "") {
             alert("VocÊ precisa marcar o reCaptcha");
             return false;
         }
     }
+
 </script>
-
-
-
-

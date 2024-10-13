@@ -12,12 +12,6 @@
         <livewire:tablePedidosUsers />
         @endif
     </div>
-
-    @if(auth()->user()->tipo == "admin" || auth()->user()->tipo == "pastor")
-    <div class="shadow mt-5 p-3">
-
-    </div>
-    @endif
 </div>
 
 @endsection

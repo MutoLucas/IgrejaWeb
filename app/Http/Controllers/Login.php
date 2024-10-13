@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Dado;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class login extends Controller
 {
@@ -34,6 +35,7 @@ class login extends Controller
 
     public function storeUser(Request $request){
         //dd($request['g-recaptcha-response']);
+        //dd($request->data_nasci);
 
         if(empty($request['g-recaptcha-response'])){
             return back()->with('error', 'Você precisa responder o reCaptcha');
@@ -67,6 +69,14 @@ class login extends Controller
 
         if(User::where('apelido', $request->apelido)->exists()){
             return back()->with('error', 'Apelido já existente');
+        }
+
+        $dataNasci = Carbon::parse($request->data_nasci);
+        $dataAtual = Carbon::now();
+        $idade = $dataNasci->diffInYears($dataAtual);
+        
+        if($idade < 18){
+            return back()->with('error', 'Idade menor que 18 anos');
         }
 
         $request->cpf = str_replace(['.','-'], '', $request->cpf);
@@ -123,7 +133,4 @@ class login extends Controller
         return redirect()->route('home.index')->with('success', 'Usuario cadastrado com sucesso');
     }
 
-    public function login(Request $request){
-
-    }
 }
