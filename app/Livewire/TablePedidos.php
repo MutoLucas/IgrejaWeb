@@ -19,17 +19,21 @@ class TablePedidos extends Component
     public $buscaDpt;
     public $buscaStatus;
     public $buscaData;
+    public $dpt;
+    public $user;
 
     public function mount(){
         $this->buscaNome = null;
         $this->buscaDpt =null;
         $this->buscaStatus = null;
         $this->buscaData = null;
+        $this->dpt = null;
+        $this->user = null;
     }
 
     public function render(){
         $allDpts = Departamento::orderBy('nome','asc')->get();
-        $allUsers = User::orderBy('apelido','asc')->get();
+        $allUsers = User::where('id', '!=', 1)->orderBy('apelido','asc')->get();
 
         $query = DB::table('pedidos as p')
         ->join('departamentos as d', 'd.id', '=', 'p.departamento_id')
@@ -106,6 +110,24 @@ class TablePedidos extends Component
             $this->reset();
         }else{
             return redirect()->route('pedidos.index')->with('error', 'Pedido não encontrado');
+        }
+    }
+
+    public function criarLider(){
+        //dd($this->user, $this->dpt);
+
+        $verificacao = Pedido::where('user_id', $this->user)->where('departamento_id', $this->dpt)->exists();
+        //dd($verificacao);
+
+        if($verificacao){
+            return redirect()->route('pedidos.index')->with('error','Pedido para esta liderança já existente');
+        }else{
+            Pedido::create([
+                'user_id' => $this->user,
+                'departamento_id' => $this->dpt
+            ]);
+
+            $this->reset();
         }
     }
 }

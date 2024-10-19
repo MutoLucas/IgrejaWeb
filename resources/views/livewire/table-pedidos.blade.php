@@ -10,7 +10,7 @@
 
         <div class="col-md-3 btn-group">
             <button type="button" class="btn btn-outline-primary" wire:click="resetBusca"><i class="bi bi-arrow-clockwise"></i></button>
-            <button type="button" class="btn btn-outline-primary" data-bs-target="#criarLider">
+            <button type="button" class="btn btn-outline-primary" data-bs-target="#criarLider" data-bs-toggle="modal">
                 <i class="bi bi-plus-lg"></i>
             </button>
             <button type="button" class="btn btn-outline-primary" wire:click="buscarPedido"><i class="bi bi-search"></i></button>
@@ -70,4 +70,50 @@
         </tbody>
     </table>
     {{ $pedidos->links() }}
+
+    <div class="modal fade" data-bs-backdrop="static" id="criarLider">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-4">Crair Liderança</h1>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="user">Membro</label>
+                            <select class="form-select" name="user" id="user" wire:model="user">
+                                <option value="">Select...</option>
+                                @foreach ($allUsers as $user)
+                                <option value="{{ $user->id }}">{{ $user->apelido }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md">
+                            <label for="dpt">Departamento</label>
+                            <select class="form-select" name="dpt" id="dpt" wire:model="dpt">
+                                <option value="">Select...</option>
+                                @foreach ($allDpts as $dpt)
+                                <option value="{{ $dpt->id }}">{{ $dpt->nome }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger me-1" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <button type="button" class="btn btn-outline-primary" wire:click="criarLider" data-bs-dismiss="modal">
+                            Criar liderança
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
