@@ -74,7 +74,7 @@ class login extends Controller
         $dataNasci = Carbon::parse($request->data_nasci);
         $dataAtual = Carbon::now();
         $idade = $dataNasci->diffInYears($dataAtual);
-        
+
         if($idade < 18){
             return back()->with('error', 'Idade menor que 18 anos');
         }
@@ -127,6 +127,7 @@ class login extends Controller
                 'rg' => $request->rg,
                 'sexo' => $request->sexo,
                 'telefone' => $request->telefone,
+                'data_nasci' => $request->data_nasci
             ]);
         }
 

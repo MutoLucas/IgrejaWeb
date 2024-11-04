@@ -8,12 +8,13 @@
 
 <div class="container shadow-lg p-3">
 
-  <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
-    <div class="col-lg-6 px-0">
-      <h1 class="display-4 fst-italic">Bem-vindo(a) a Verbo Jatobá</h1>
-      <p class="lead my-3">Frase sobre a igreja ou alguma frase de boas vindas.</p>
+    <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary" style="background-image: url('{{ asset('imagens/home.jpeg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <div class="col-lg-6 px-0">
+          <h1 class="display-4 fst-italic text-light">Bem-vindo(a) a Verbo Jatobá</h1>
+          <p class="lead my-3 text-light">Frase sobre a igreja ou alguma frase de boas vindas.</p>
+        </div>
     </div>
-  </div>
+
 
   <div class="row mb-2">
     <div class="col-md-6">
@@ -29,8 +30,9 @@
           </a>
         </div>
         <div class="col-auto d-none d-lg-block">
-          <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            <img src="{{ asset('imagens/jackson.png') }}" alt="Thumbnail" width="200" height="250" />
         </div>
+
       </div>
     </div>
 
@@ -47,7 +49,7 @@
           </a>
         </div>
         <div class="col-auto d-none d-lg-block">
-          <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            <img src="{{ asset('imagens/andrea.png') }}" alt="Thumbnail" width="200" height="250" />
         </div>
       </div>
     </div>

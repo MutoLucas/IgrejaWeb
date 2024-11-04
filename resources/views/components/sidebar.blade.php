@@ -88,6 +88,7 @@
                         <label for="password" class="form-label">Senha</label>
                         <input type="password" class="form-control border-primary" name="password" required>
                     </div>
+                    <p class="mt-2 mb-0"><a href="{{ route('email.catch') }}">Esqueci minha senha!</a></p>
                 </form>
             </div>
             <div class="modal-footer">

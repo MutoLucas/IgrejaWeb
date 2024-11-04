@@ -6,6 +6,7 @@ use App\Http\Controllers\Login;
 use App\Http\Controllers\Dpt;
 use App\Http\Controllers\Calendario;
 use App\Http\Controllers\Pedido;
+use App\Http\Controllers\Email;
 
 Route::get('/', [Controller::class, 'show_home'])->name('home.index');
 
@@ -27,3 +28,9 @@ Route::get('/departamento/desvincular/{nome_pessoa}/{nome_dpt}', [Dpt::class, 'd
 Route::get('/calendario/home', [Calendario::class, 'showCalendario'])->name('calendario.index');
 
 Route::get('/pedidos/home', [Pedido::class, 'showPedidos'])->name('pedidos.index');
+
+Route::get('/catch/email', [Email::class, 'catchEmail'])->name('email.catch');
+Route::get('/catch/token', [Email::class, 'catchToken'])->name('email.token');
+Route::post('/verify/email', [Email::class, 'verifySendEmail'])->name('email.verifySendEmail');
+Route::post('/verify/token', [Email::class, 'verifyToken'])->name('email.verifyToken');
+Route::post('/modificar/senha/{email}', [Email::class, 'modificarSenha'])->name('email.novaSenha');
