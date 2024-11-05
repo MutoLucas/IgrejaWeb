@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('lideres', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('departamento_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users', 'id');
+            $table->foreignId('departamento_id')->constrained('departamentos','id');
             $table->timestamps();
         });
     }

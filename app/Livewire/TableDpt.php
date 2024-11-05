@@ -33,11 +33,9 @@ class TableDpt extends Component
         }
 
 
-        //adicionando a quantidade de pessoas vnculadas a cada departamento
         for($x = 0;$x<count($allDpts);$x++){
             $allDpts[$x]['qtdPessoa'] = $qtdPessoa = DepartamentoUsuario::where('departamento_id','=',$allDpts[$x]->id)->count();
         }
-        //dd($allDpts);
 
         return view('livewire.table-dpt', ['allDpts' => $allDpts]);
     }

@@ -9,7 +9,7 @@ class DepartamentoUsuario extends Model
 {
     use HasFactory;
 
-    protected $table = "Departamento_user";
+    protected $table = "departamento_user";
 
     protected $fillable =  [
         'user_id',

@@ -65,6 +65,7 @@ class Calendario extends Component
             ->selectRaw(' DATE_FORMAT(e.data, "%d-%m-%Y") as data, d.nome, e.descricao')
             ->where('e.user_id',auth()->user()->id)
             ->where('e.data','like', '%'.$this->buscaData.'%')
+            ->where('d.nome', 'like', '%'.$this->buscaDpt.'%')
             ->orderBy('e.data', 'asc')
             ->get();
             //dd($query);

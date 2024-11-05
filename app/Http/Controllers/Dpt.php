@@ -44,7 +44,7 @@ class Dpt extends Controller
     }
 
     public function criarDpt(Request $request){
-        //dd($request);
+        dd($request);
         if(auth()->user()->tipo != 'admin' && auth()->user()->tipo != 'pastor'){
             return back()->with('error', 'você precisa de permissão para fazer isso');
         }

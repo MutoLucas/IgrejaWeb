@@ -1,5 +1,5 @@
 <div class="col-sm text-center">
-    <h1>Pedidos De Usuários</h1>
+    <h1>Pedidos</h1>
     <div class="container">
         <div class="row">
             <div class="col-md input-group">

@@ -7,7 +7,7 @@ use App\Models\Departamento;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pedido;
-use App\Models\Lider;
+use App\Models\lider;
 use Livewire\WithPagination;
 
 class TablePedidos extends Component
@@ -68,7 +68,7 @@ class TablePedidos extends Component
         if($pedido){
             $pedido->status = 'aceito';
             $pedido->save();
-            Lider::create([
+            lider::create([
                 'user_id' => $user_id,
                 'departamento_id' => $dpt_id
             ]);
@@ -85,7 +85,7 @@ class TablePedidos extends Component
         $pedido = Pedido::where('id',$p_id)->first();
 
         if($pedido){
-            $lideranca = Lider::where('user_id',$user_id)->where('departamento_id',$dpt_id)->first();
+            $lideranca = lider::where('user_id',$user_id)->where('departamento_id',$dpt_id)->first();
             if($lideranca){
                 $lideranca->delete();
             }

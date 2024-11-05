@@ -49,7 +49,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm">
-                            <label for="">Membro</label>
+                            <label for="" class="form-label">Membro</label>
                             <select wire:model="idPessoa" class="form-select border-primary">
                                 <option value="">Select</option>
                                 @foreach ($allUser as $user)

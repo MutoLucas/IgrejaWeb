@@ -10,11 +10,15 @@ use App\Models\Devocao;
 use App\Models\Dado;
 use App\Models\Endereco;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class Controller
 {
     public function show_home(){
-        return view('pages.home');
+        $dpts = DB::table('departamentos')->get();
+        //dd($dpts);
+
+        return view('pages.home', ['dpts' => $dpts]);
     }
 
     public function showEditUser(String $id){
