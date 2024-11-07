@@ -24,6 +24,8 @@ class Calendario extends Component
     public $buscaApelido;
     public $buscaDpt;
     public $buscaData;
+    public $buscaDptServi;
+    public $buscaDataServi;
     public $dptLider;
 
     public function mount(){
@@ -36,6 +38,9 @@ class Calendario extends Component
         $this->buscaApelido = null;
         $this->buscaDpt = null;
         $this->buscaData = null;
+        $this->buscaDptServi = null;
+        $this->buscaDataServi = null;
+
     }
 
     public function render()
@@ -81,8 +86,18 @@ class Calendario extends Component
             ->get();
             //dd($query);
 
+            $queryServi = DB::table('eventos as e')
+            ->join('departamentos as d', 'e.departamento_id', '=', 'd.id')
+            ->selectRaw(' DATE_FORMAT(e.data, "%d-%m-%Y") as data, d.nome, e.descricao')
+            ->where('e.user_id',auth()->user()->id)
+            ->where('e.data','like', '%'.$this->buscaDataServi.'%')
+            ->where('d.nome', 'like', '%'.$this->buscaDptServi.'%')
+            ->orderBy('e.data', 'asc')
+            ->get();
+            //dd($query);
 
-            return view('livewire.calendario', ['allUser' => $allUser, 'allDpt' => $allDpt, 'eventos' => $query]);
+
+            return view('livewire.calendario', ['allUser' => $allUser, 'allDpt' => $allDpt, 'eventos' => $query, 'queryServi' => $queryServi]);
         }elseif(auth()->user()->tipo == 'usuario'){
             $query = DB::table('eventos as e')
             ->join('departamentos as d', 'e.departamento_id', '=', 'd.id')
@@ -157,5 +172,13 @@ class Calendario extends Component
 
     public function busca(){
         $this->render();
+    }
+
+    public function buscaServi(){
+        $this->render();
+    }
+
+    public function resetBuscaServi(){
+        $this->reset();
     }
 }

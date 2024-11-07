@@ -1,5 +1,5 @@
 <div class="container p-3">
-    <h1 class="text-center">Caléndario</h1>
+    <h1 class="text-center">Caléndario de Lidereança</h1>
     <div class="row">
         <div class="col-sm input-group my-1">
             @if(auth()->user()->tipo == "pastor" || auth()->user()->tipo == "lider")
@@ -32,7 +32,6 @@
                 <i class="bi bi-search"></i>
             </button>
             @endif
-
         </div>
     </div>
 
@@ -143,6 +142,47 @@
         </div>
     </div>
     @endif
+
+    @if(auth()->user()->tipo == "lider")
+    <div class="container p-3 mt-5">
+        <h1 class="text-center">Caléndario</h1>
+
+        <div class="row">
+            <div class="col-sm input-group my-1">
+                <input type="text" class="form-control border-secondary" wire:model="buscaDptServi" placeholder="Departamento">
+                <input type="date" class="form-control border-secondary" wire:model="buscaDataServi">
+            </div>
+
+            <div class="col-sm-2 btn-group my-1">
+                <button class="btn btn-outline-primary" type="button" wire:click="resetBuscaServi">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
+                <button class="btn btn-outline-primary" type="button" wire:click="buscaServi">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-evenly">
+                @foreach($queryServi as $evento)
+                    <div class="my-2 card border-dark shadow" style="max-width: 300px">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-building-fill"></i>{{ $evento->nome }}</h5>
+                            <h7 class="card-subtitle mb-2 text-success"><i class="bi bi-calendar-check"></i> {{ $evento->data }}</h7>
+                            @if($evento->descricao == null)
+                            <p class="card-text text-center">Sem observações</p>
+                            @else
+                            <p class="card-text text-center">{{ $evento->descricao }}</p>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    @endif
+
 
 
 
