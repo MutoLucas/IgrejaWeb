@@ -7,7 +7,7 @@
                 <a href="{{ route('home.index') }}" class="nav-link link-light"><i class="bi bi-house-fill"></i> Home</a>
 
                 @if(auth()->check())
-                @if(auth()->user()->tipo === 'pastor')
+                @if(auth()->user()->tipo === 'pastor' || auth()->user()->tipo === 'lider')
                 <a href="{{ route('dpt.index') }}" class="nav-link link-light"><i class="bi bi-building-fill"></i> Departamentos</a>
                 @endif
                 @endif

@@ -13,9 +13,9 @@ use App\Models\Evento;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 
-class TablePessoaDpt extends Component
-{
 
+class TablePessoaDptLider extends Component
+{
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
@@ -33,18 +33,24 @@ class TablePessoaDpt extends Component
 
     public function render(){
         //Pegando todos os usuarios
-        $allUser = User::where('id', '!=', 1)->get();
+        $allUser = User::where('id', '!=', 1)->where('id', '!=', auth()->user()->id)->get();
         //dd($allUser);
 
-        $allDpt = Departamento::get();
+        $allDpt = lider::join('departamentos', 'departamentos.id', '=', 'lideres.departamento_id')
+        ->select('lideres.*', 'departamentos.*')
+        ->where('lideres.user_id',auth()->user()->id)
+        ->paginate(4);
         //dd($allDpt);
 
         $pessoaDpt = DB::table('departamento_user as du')
         ->join('users as u', 'u.id', '=', 'du.user_id')
         ->join('departamentos as d', 'd.id', '=', 'du.departamento_id')
+        ->join('lideres as l','l.departamento_id','=','du.departamento_id')
         ->select('du.id','u.apelido as nome','u.id as user_id','d.id as departamento_id','d.nome as departamento')
         ->where('u.apelido','like','%'.$this->buscaPessoa.'%')
         ->where('d.nome','like','%'.$this->buscaDpt.'%')
+        ->where('u.id', '!=', auth()->user()->id)
+        ->where('l.user_id',auth()->user()->id)
         ->paginate(4,['*','pessoaPage']);
         //dd($pessoaDpt);
 

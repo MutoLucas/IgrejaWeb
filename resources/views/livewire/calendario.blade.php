@@ -2,7 +2,7 @@
     <h1 class="text-center">Caléndario</h1>
     <div class="row">
         <div class="col-sm input-group my-1">
-            @if(auth()->user()->tipo == "pastor")
+            @if(auth()->user()->tipo == "pastor" || auth()->user()->tipo == "lider")
             <input type="text" class="form-control border-secondary" wire:model="buscaApelido" placeholder="Membro">
             <input type="text" class="form-control border-secondary" wire:model="buscaDpt" placeholder="Departamento">
             <input type="date" class="form-control border-secondary" wire:model="buscaData">
@@ -14,7 +14,7 @@
         </div>
 
         <div class="col-sm-2 btn-group my-1">
-            @if(auth()->user()->tipo == "pastor")
+            @if(auth()->user()->tipo == "pastor" || auth()->user()->tipo == "lider")
             <button class="btn btn-outline-primary" type="button" wire:click="resetBusca">
                 <i class="bi bi-arrow-clockwise"></i>
             </button>
@@ -39,7 +39,7 @@
     <div class="container">
         <div class="row justify-content-evenly">
             @foreach($eventos as $evento)
-                @if(auth()->user()->tipo == 'pastor')
+                @if(auth()->user()->tipo == 'pastor' || auth()->user()->tipo == "lider")
                 <div class="my-2 card border-dark shadow" style="max-width: 300px">
                     <button class="position-absolute top-0 end-0 mt-2 me-2 btn btn-sm btn-danger" wire:click="excluirEvento({{ $evento->id }})"><i class="bi bi-dash-circle"></i></button>
                     <div class="card-body">
@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    @if(auth()->user()->tipo == 'pastor')
+    @if(auth()->user()->tipo == 'pastor' || auth()->user()->tipo == "lider")
     <div class="modal fade" id="criarEvento" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

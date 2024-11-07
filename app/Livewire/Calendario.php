@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Departamento;
 use App\Models\Evento;
+use App\Models\lider;
 use Carbon\Carbon;
 
 class Calendario extends Component
@@ -58,7 +59,30 @@ class Calendario extends Component
 
             return view('livewire.calendario', ['allUser' => $allUser, 'allDpt' => $allDpt, 'eventos' => $query]);
         }elseif(auth()->user()->tipo == 'lider'){
+            //Pegando todos os usuarios
+            $allUser = User::where('id', '!=', 1)->where('id', '!=', auth()->user()->id)->get();
+            //dd($allUser);
 
+            $allDpt = lider::join('departamentos', 'departamentos.id', '=', 'lideres.departamento_id')
+            ->select('lideres.*', 'departamentos.*')
+            ->where('lideres.user_id',auth()->user()->id)
+            ->paginate(4);
+            //dd($allDpt);
+
+            $query = DB::table('eventos as e')->join('users as u', 'u.id', '=', 'e.user_id')
+            ->join('departamentos as d', 'd.id', '=', 'e.departamento_id')
+            ->join('lideres as l','l.departamento_id','=','d.id')
+            ->selectRaw('e.id, u.apelido, DATE_FORMAT(e.data, "%d-%m-%Y") as data, e.descricao, d.nome')
+            ->where('u.apelido', 'like', '%'.$this->buscaApelido.'%')
+            ->where('e.data', 'like', '%'.$this->buscaData.'%')
+            ->where('d.nome', 'like', '%'.$this->buscaDpt.'%')
+            ->where('l.user_id',auth()->user()->id)
+            ->orderBy('e.data', 'asc')
+            ->get();
+            //dd($query);
+
+
+            return view('livewire.calendario', ['allUser' => $allUser, 'allDpt' => $allDpt, 'eventos' => $query]);
         }elseif(auth()->user()->tipo == 'usuario'){
             $query = DB::table('eventos as e')
             ->join('departamentos as d', 'e.departamento_id', '=', 'd.id')
@@ -82,40 +106,42 @@ class Calendario extends Component
             return redirect()->route('calendario.index')->with('error','A data não pode ser inferior a data de hoje');
         }
 
-        $query = DB::table('eventos as e')->select('data', 'user_id', 'departamento_id')->where('data', $this->dataEvento)->where('user_id', $this->idPessoa)->get();
-        //dd($query);
+        $lider = lider::where('user_id',$this->idPessoa)->where('departamento_id',$this->idDpt)->get();
+        //dd($lider->count());
+        if($lider->count() != 0){
+            return redirect()->route('calendario.index')->with('error','Este menbro é lider deste departamento');
+        }else{
+            $query = DB::table('eventos as e')->select('data', 'user_id', 'departamento_id')->where('data', $this->dataEvento)->where('user_id', $this->idPessoa)->get();
+            //dd($query);
 
-        if($query->count() == 0){
-            Evento::create([
-                'descricao' => $this->desc,
-                'data' => $this->dataEvento,
-                'user_id' => $this->idPessoa,
-                'departamento_id' => $this->idDpt
-            ]);
-        }elseif($query->count() == 1){
-            $data = $query->first();
-            $data = $data->data;
-            //dd($data);
-            $carbonDate = Carbon::parse($data);
-            if($carbonDate->isSunday()){
+            if($query->count() == 0){
                 Evento::create([
                     'descricao' => $this->desc,
                     'data' => $this->dataEvento,
                     'user_id' => $this->idPessoa,
                     'departamento_id' => $this->idDpt
                 ]);
-            }else{
-                return redirect()->route('calendario.index')->with('error','Um membro não pode servir duas vezes neste dia');
+            }elseif($query->count() == 1){
+                $data = $query->first();
+                $data = $data->data;
+                //dd($data);
+                $carbonDate = Carbon::parse($data);
+                if($carbonDate->isSunday()){
+                    Evento::create([
+                        'descricao' => $this->desc,
+                        'data' => $this->dataEvento,
+                        'user_id' => $this->idPessoa,
+                        'departamento_id' => $this->idDpt
+                    ]);
+                }else{
+                    return redirect()->route('calendario.index')->with('error','Um membro não pode servir duas vezes neste dia');
+                }
+            }elseif($query->count() > 1){
+                return redirect()->route('calendario.index')->with('error','Um membro não pode servir mais de duas vezes em um domingo');
             }
-        }elseif($query->count() > 1){
-            return redirect()->route('calendario.index')->with('error','Um membro não pode servir mais de duas vezes em um domingo');
         }
 
-
-
-
         $this->reset();
-        $this->render();
     }
 
     public function excluirEvento($idEvento){
@@ -123,12 +149,10 @@ class Calendario extends Component
         Evento::find($idEvento)->delete();
 
         $this->reset();
-        $this->render();
     }
 
     public function resetBusca(){
         $this->reset();
-        $this->render();
     }
 
     public function busca(){

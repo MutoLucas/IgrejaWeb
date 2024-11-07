@@ -72,6 +72,9 @@ class TablePedidos extends Component
                 'user_id' => $user_id,
                 'departamento_id' => $dpt_id
             ]);
+            $user = User::where('id', $user_id)->first();
+            $user->tipo = 'lider';
+            $user->save();
 
             $this->reset();
         }else{
@@ -89,6 +92,9 @@ class TablePedidos extends Component
             if($lideranca){
                 $lideranca->delete();
             }
+            $user = User::where('id', $user_id)->first();
+            $user->tipo = 'usuario';
+            $user->save();
 
             $pedido->status = 'pendente';
             $pedido->save();

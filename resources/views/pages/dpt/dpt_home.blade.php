@@ -11,7 +11,11 @@
         </div>
 
         <div class="col-sm shadow m-2 p-3">
+            @if(auth()->user()->tipo == 'lider')
+            <livewire:table-pessoa-dpt-lider/>
+            @else
             <livewire:table-pessoa-dpt/>
+            @endif
         </div>
     </div>
 </div>

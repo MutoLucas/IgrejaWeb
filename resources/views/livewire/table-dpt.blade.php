@@ -9,7 +9,12 @@
             <div class="col-md btn-group">
                 <button type="button" class="btn btn-outline-primary" wire:click="resetBusca"><i class="bi bi-arrow-clockwise"></i></button>
                 <button type="button" class="btn btn-sm btn-outline-primary" wire:click="buscarDpt"><i class="bi bi-search"></i></button>
+                @if(auth()->user()->tipo == 'lider')
+
+                @else
                 <button type="button" class="btn btn-sm btn-outline-primary" data-bs-target="#criarDpt" data-bs-toggle="modal"><i class="bi bi-plus-lg"></i></button>
+                @endif
+
             </div>
         </div>
 
@@ -19,7 +24,11 @@
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">qtdPessoas</th>
+                        @if(auth()->user()->tipo == 'lider')
+
+                        @else
                         <th scope="col">Ação</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -27,9 +36,14 @@
                     <tr>
                         <td>{{ $dpt->nome }}</td>
                         <td>{{ $dpt->qtdPessoa }}</td>
+                        @if(auth()->user()->tipo == 'lider')
+
+                        @else
                         <td>
                             <button type="button" class="btn btn-sm btn-danger" wire:click="deleteDpt({{ $dpt->id }})"><i class="bi bi-building-dash"></i></button>
                         </td>
+                        @endif
+
                     </tr>
                     @endforeach
                 </tbody>
