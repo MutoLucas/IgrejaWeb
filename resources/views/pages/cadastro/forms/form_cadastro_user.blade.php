@@ -52,6 +52,7 @@
     <div class="col-sm">
         <label for="cpf" class="form-label">CPF</label>
         <input type="text" class="form-control border-primary" id="cpf" name="cpf" maxlength="14" required>
+        <div id="cpfHelp" class="form-text" style="display: none">CPF inválido</div>
     </div>
 
     <div class="col-sm">
@@ -82,7 +83,6 @@
         });
 
     </script>
-
 
 </div>
 
@@ -130,6 +130,7 @@
 <script>
     const dataInput = document.getElementById('data_nasci')
     const btn = document.getElementById('btn-cadastrar')
+    const cpfInput = document.getElementById('cpf')
 
     function calcularIdade(dataNascimento) {
         const hoje = new Date();
@@ -152,7 +153,7 @@
             document.getElementById('dataHelp').style.display = 'none';
             btn.disabled = true;
         } else {
-            if (idade >= 18) {
+            if (idade >= 18 ) {
                 btn.disabled = false;
                 document.getElementById('dataHelp').style.display = 'none';
             } else {
@@ -162,6 +163,65 @@
         }
 
     });
+
+    cpfInput.addEventListener('input', function(){
+        const cpf = cpfInput.value
+
+        function validarCPF(cpf) {
+            // Remove caracteres não numéricos
+            cpf = cpf.replace(/[^\d]+/g, '');
+
+            // Verifica se o CPF possui 11 dígitos ou se é uma sequência repetida (ex: 000.000.000-00)
+            if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
+                return false;
+            }
+
+            let soma = 0;
+            let resto;
+
+            // Calcula o primeiro dígito verificador
+            for (let i = 1; i <= 9; i++) {
+                soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+            }
+            resto = (soma * 10) % 11;
+
+            if (resto === 10 || resto === 11) {
+                resto = 0;
+            }
+            if (resto !== parseInt(cpf.substring(9, 10))) {
+                return false;
+            }
+
+            soma = 0;
+
+            // Calcula o segundo dígito verificador
+            for (let i = 1; i <= 10; i++) {
+                soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+            }
+            resto = (soma * 10) % 11;
+
+            if (resto === 10 || resto === 11) {
+                resto = 0;
+            }
+            if (resto !== parseInt(cpf.substring(10, 11))) {
+                return false;
+            }
+
+            return true;
+        }
+
+        const cpfValidado = validarCPF(cpf)
+        //console.log(cpfValidado)
+
+        if(cpfValidado === true){
+            btn.disabled = false;
+            document.getElementById('cpfHelp').style.display = 'none';
+        }else{
+            btn.disabled = true;
+            document.getElementById('cpfHelp').style.display = 'block';
+        }
+    });
+
 
 </script>
 
