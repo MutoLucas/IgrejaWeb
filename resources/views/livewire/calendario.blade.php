@@ -1,5 +1,12 @@
 <div class="container p-3">
+    @if(auth()->user()->tipo == 'pastor')
+    <h1 class="text-center">Caléndario de Lidereança Pastorial</h1>
+    @elseif(auth()->user()->tipo == 'lider')
     <h1 class="text-center">Caléndario de Lidereança</h1>
+    @else
+    <h1 class="text-center">Caléndario  </h1>
+    @endif
+
     <div class="row">
         <div class="col-sm input-group my-1">
             @if(auth()->user()->tipo == "pastor" || auth()->user()->tipo == "lider")

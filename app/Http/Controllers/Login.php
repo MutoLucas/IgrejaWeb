@@ -34,7 +34,7 @@ class login extends Controller
     }
 
     public function storeUser(Request $request){
-        //dd($request['g-recaptcha-response']);
+        //dd($request);
         //dd($request->data_nasci);
 
         if(empty($request['g-recaptcha-response'])){
