@@ -13,6 +13,12 @@
                 @endif
 
                 @if(auth()->check())
+                @if(auth()->user()->tipo === 'pastor')
+                <a href="{{ route('membro.listagem') }}" class="nav-link link-light"><i class="bi bi-person-fill"></i> Membros</a>
+                @endif
+                @endif
+
+                @if(auth()->check())
                 <a href="{{ route('calendario.index') }}" class="nav-link link-light"><i class="bi bi-calendar2-week-fill"></i> Calendario</a>
                 @endif
             </div>

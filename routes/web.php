@@ -7,6 +7,7 @@ use App\Http\Controllers\Dpt;
 use App\Http\Controllers\Calendario;
 use App\Http\Controllers\Pedido;
 use App\Http\Controllers\Email;
+use App\Http\Controllers\ListagemMembros;
 
 Route::get('/', [Controller::class, 'show_home'])->name('home.index');
 
@@ -34,3 +35,6 @@ Route::get('/catch/token', [Email::class, 'catchToken'])->name('email.token');
 Route::post('/verify/email', [Email::class, 'verifySendEmail'])->name('email.verifySendEmail');
 Route::post('/verify/token', [Email::class, 'verifyToken'])->name('email.verifyToken');
 Route::post('/modificar/senha/{email}', [Email::class, 'modificarSenha'])->name('email.novaSenha');
+
+Route::get('/listagem/membros', [ListagemMembros::class,'showListagem'])->name('membro.listagem');
+Route::get('/membro/info/{id}', [ListagemMembros::class,'showMembro'])->name('membro.info');
