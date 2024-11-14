@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="container p-3">
+<div class="container-fluid">
     <div class="row">
         <div class="col-sm shadow m-2 p-3">
             <livewire:table-dpt/>

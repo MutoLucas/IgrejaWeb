@@ -18,6 +18,7 @@ class TablePessoaDptLider extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['addMembroDpt' => 'render', 'removeMembroDpt' => 'render'];
 
     public $idPessoa;
     public $idDpt;
@@ -71,8 +72,8 @@ class TablePessoaDptLider extends Component
                     'departamento_id' => $this->idDpt
                 ]);
 
+                $this->dispatch('addMembroDpt');
                 $this->reset();
-                $this->render();
             }
         }
 
@@ -103,8 +104,8 @@ class TablePessoaDptLider extends Component
             }
 
 
+            $this->dispatch('removeMembroDpt');
             $this->reset();
-            $this->render();
         }else{
             return redirect()->route('dpt.index')->with('error','Este relacionamento não funciona');
         }

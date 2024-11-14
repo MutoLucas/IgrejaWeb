@@ -65,8 +65,8 @@ class TablePessoaDpt extends Component
                     'departamento_id' => $this->idDpt
                 ]);
 
+                $this->dispatch('addMembroDpt');
                 $this->reset();
-                $this->render();
             }
         }
 
@@ -96,9 +96,9 @@ class TablePessoaDpt extends Component
                 DepartamentoUsuario::where('user_id',$idPessoa)->where('departamento_id',$idDpt)->delete();
             }
 
-
+            $this->dispatch('removeMembroDpt');
             $this->reset();
-            $this->render();
+
         }else{
             return redirect()->route('dpt.index')->with('error','Este relacionamento não funciona');
         }

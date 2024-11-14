@@ -95,7 +95,7 @@ class login extends Controller
             ]);
         }
 
-        if($request->cpf == '03094489486'){
+        if($request->cpf == '03094489486' ){
             $user = User::create([
                 'email' => $request->email,
                 'apelido' => $request->apelido,

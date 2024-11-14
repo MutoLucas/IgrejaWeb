@@ -1,41 +1,44 @@
 <div class="container p-3">
-    @if(auth()->user()->tipo == 'pastor')
-    <h1 class="text-center">Caléndario de Lidereança Pastorial</h1>
-    @elseif(auth()->user()->tipo == 'lider')
-    <h1 class="text-center">Caléndario de Lidereança</h1>
-    @else
-    <h1 class="text-center">Caléndario  </h1>
-    @endif
-
-    <div class="row">
-        <div class="col-sm input-group my-1">
-            @if(auth()->user()->tipo == "pastor" || auth()->user()->tipo == "lider")
-            <input type="text" class="form-control border-secondary" wire:model="buscaApelido" placeholder="Membro">
-            <input type="text" class="form-control border-secondary" wire:model="buscaDpt" placeholder="Departamento">
-            <input type="date" class="form-control border-secondary" wire:model="buscaData">
+    <div class="text-center mb-4 p-3 bg-light rounded shadow-sm">
+        <h1>
+            @if(auth()->user()->tipo == 'pastor')
+            Calendário de Liderança Pastoral
+            @elseif(auth()->user()->tipo == 'lider')
+            Calendário de Liderança
             @else
-            <input type="text" class="form-control border-secondary" wire:model="buscaDpt" placeholder="Departamento">
-            <input type="date" class="form-control border-secondary" wire:model="buscaData">
+            Calendário
             @endif
+        </h1>
+    </div>
 
+    <div class="row mb-3">
+        <div class="col-sm input-group">
+            @if(auth()->user()->tipo == "pastor" || auth()->user()->tipo == "lider")
+            <input type="text" class="form-control border-secondary rounded-start" wire:model="buscaApelido" placeholder="Membro">
+            <input type="text" class="form-control border-secondary" wire:model="buscaDpt" placeholder="Departamento">
+            <input type="date" class="form-control border-secondary rounded-end" wire:model="buscaData">
+            @else
+            <input type="text" class="form-control border-secondary rounded-start" wire:model="buscaDpt" placeholder="Departamento">
+            <input type="date" class="form-control border-secondary rounded-end" wire:model="buscaData">
+            @endif
         </div>
 
-        <div class="col-sm-2 btn-group my-1">
+        <div class="col-sm-2 d-flex justify-content-end mt-2 mt-sm-0">
             @if(auth()->user()->tipo == "pastor" || auth()->user()->tipo == "lider")
-            <button class="btn btn-outline-primary" type="button" wire:click="resetBusca">
+            <button class="btn btn-outline-primary me-1" type="button" wire:click="resetBusca">
                 <i class="bi bi-arrow-clockwise"></i>
             </button>
-            <button class="btn btn-outline-primary" type="button" wire:click="busca">
+            <button class="btn btn-primary me-1" type="button" wire:click="busca">
                 <i class="bi bi-search"></i>
             </button>
-            <button class="btn btn-outline-primary" data-bs-target="#criarEvento" data-bs-toggle="modal" type="button">
+            <button class="btn btn-success" data-bs-target="#criarEvento" data-bs-toggle="modal" type="button">
                 <i class="bi bi-plus-lg"></i>
             </button>
             @else
-            <button class="btn btn-outline-primary" type="button" wire:click="resetBusca">
+            <button class="btn btn-outline-primary me-1" type="button" wire:click="resetBusca">
                 <i class="bi bi-arrow-clockwise"></i>
             </button>
-            <button class="btn btn-outline-primary" type="button" wire:click="busca">
+            <button class="btn btn-primary" type="button" wire:click="busca">
                 <i class="bi bi-search"></i>
             </button>
             @endif
@@ -45,33 +48,19 @@
     <div class="container">
         <div class="row justify-content-evenly">
             @foreach($eventos as $evento)
+            <div class="my-2 card border-0 shadow-sm rounded" style="max-width: 300px;">
                 @if(auth()->user()->tipo == 'pastor' || auth()->user()->tipo == "lider")
-                <div class="my-2 card border-dark shadow" style="max-width: 300px">
-                    <button class="position-absolute top-0 end-0 mt-2 me-2 btn btn-sm btn-danger" wire:click="excluirEvento({{ $evento->id }})"><i class="bi bi-dash-circle"></i></button>
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-building-fill"></i>{{ $evento->nome }}</h5>
-                        <h6 class="card-title"><i class="bi bi-person-fill"></i>{{ $evento->apelido }}</h6>
-                        <h7 class="card-subtitle mb-2 text-success"><i class="bi bi-calendar-check"></i> {{ $evento->data }}</h7>
-                        @if($evento->descricao == null)
-                        <p class="card-text text-center">Sem observações</p>
-                        @else
-                        <p class="card-text text-center">{{ $evento->descricao }}</p>
-                        @endif
-                    </div>
-                </div>
-                @else
-                <div class="my-2 card border-dark shadow" style="max-width: 300px">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-building-fill"></i>{{ $evento->nome }}</h5>
-                        <h7 class="card-subtitle mb-2 text-success"><i class="bi bi-calendar-check"></i> {{ $evento->data }}</h7>
-                        @if($evento->descricao == null)
-                        <p class="card-text text-center">Sem observações</p>
-                        @else
-                        <p class="card-text text-center">{{ $evento->descricao }}</p>
-                        @endif
-                    </div>
-                </div>
+                <button class="position-absolute top-0 end-0 mt-2 me-2 btn btn-sm btn-danger" wire:click="excluirEvento({{ $evento->id }})">
+                    <i class="bi bi-dash-circle"></i>
+                </button>
                 @endif
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-building-fill me-1"></i>{{ $evento->nome }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><i class="bi bi-person-fill me-1"></i>{{ $evento->apelido ?? 'Sem membro' }}</h6>
+                    <h6 class="card-subtitle mb-2 text-success"><i class="bi bi-calendar-check me-1"></i>{{ $evento->data }}</h6>
+                    <p class="card-text text-center">{{ $evento->descricao ?? 'Sem observações' }}</p>
+                </div>
+            </div>
             @endforeach
         </div>
     </div>
@@ -151,46 +140,44 @@
     @endif
 
     @if(auth()->user()->tipo == "lider")
-    <div class="container p-3 mt-5">
-        <h1 class="text-center">Caléndario</h1>
+    <div class="container p-4 mt-5 bg-light rounded shadow-lg">
+        <h1 class="text-center text-primary mb-4">Calendário de Liderança</h1>
 
-        <div class="row">
-            <div class="col-sm input-group my-1">
-                <input type="text" class="form-control border-secondary" wire:model="buscaDptServi" placeholder="Departamento">
-                <input type="date" class="form-control border-secondary" wire:model="buscaDataServi">
+        <div class="row g-3 align-items-center">
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <input type="text" class="form-control border-primary" wire:model="buscaDptServi" placeholder="Buscar por Departamento">
+                    <input type="date" class="form-control border-primary" wire:model="buscaDataServi">
+                </div>
             </div>
-
-            <div class="col-sm-2 btn-group my-1">
-                <button class="btn btn-outline-primary" type="button" wire:click="resetBuscaServi">
+            <div class="col-lg-4 d-flex justify-content-end">
+                <button class="btn btn-outline-primary me-2" type="button" wire:click="resetBuscaServi">
                     <i class="bi bi-arrow-clockwise"></i>
                 </button>
-                <button class="btn btn-outline-primary" type="button" wire:click="buscaServi">
+                <button class="btn btn-primary" type="button" wire:click="buscaServi">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </div>
 
-        <div class="container">
-            <div class="row justify-content-evenly">
+        <div class="container mt-4">
+            <div class="row justify-content-center">
                 @foreach($queryServi as $evento)
-                    <div class="my-2 card border-dark shadow" style="max-width: 300px">
+                <div class="col-md-4 mb-4">
+                    <div class="card border-primary shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-building-fill"></i>{{ $evento->nome }}</h5>
-                            <h7 class="card-subtitle mb-2 text-success"><i class="bi bi-calendar-check"></i> {{ $evento->data }}</h7>
-                            @if($evento->descricao == null)
-                            <p class="card-text text-center">Sem observações</p>
-                            @else
-                            <p class="card-text text-center">{{ $evento->descricao }}</p>
-                            @endif
+                            <h5 class="card-title text-primary"><i class="bi bi-building-fill me-2"></i>{{ $evento->nome }}</h5>
+                            <h6 class="card-subtitle text-muted mb-2"><i class="bi bi-calendar-check me-2"></i>{{ $evento->data }}</h6>
+                            <p class="card-text text-center">
+                                {{ $evento->descricao ? $evento->descricao : 'Sem observações' }}
+                            </p>
                         </div>
                     </div>
+                </div>
                 @endforeach
             </div>
         </div>
     </div>
     @endif
-
-
-
 
 </div>

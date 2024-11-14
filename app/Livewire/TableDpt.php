@@ -18,6 +18,7 @@ class TableDpt extends Component
 
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['addMembroDpt' => 'render', 'removeMembroDpt' => 'render'];
 
     public $nomeDpt;
     public $busca;
