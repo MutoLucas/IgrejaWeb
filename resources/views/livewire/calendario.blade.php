@@ -141,7 +141,7 @@
 
     @if(auth()->user()->tipo == "lider")
     <div class="container p-4 mt-5 bg-light rounded shadow-lg">
-        <h1 class="text-center text-primary mb-4">Calendário de Liderança</h1>
+        <h1 class="text-center text-primary mb-4">Calendário</h1>
 
         <div class="row g-3 align-items-center">
             <div class="col-lg-8">

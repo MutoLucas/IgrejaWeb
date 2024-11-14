@@ -38,3 +38,7 @@ Route::post('/modificar/senha/{email}', [Email::class, 'modificarSenha'])->name(
 
 Route::get('/listagem/membros', [ListagemMembros::class,'showListagem'])->name('membro.listagem');
 Route::get('/membro/info/{id}', [ListagemMembros::class,'showMembro'])->name('membro.info');
+
+Route::get('/forum', function(){
+    return view('pages.forum.index');
+})->name('forum.index');

@@ -5,6 +5,7 @@
         <div class="collapse navbar-collapse" id="menuNavbar">
             <div class="navbar-nav">
                 <a href="{{ route('home.index') }}" class="nav-link link-light"><i class="bi bi-house-fill"></i> Home</a>
+                <a href="{{ route('forum.index') }}" class="nav-link link-light"><i class="bi bi-person-raised-hand"> Forum</i></a>
 
                 @if(auth()->check())
                 @if(auth()->user()->tipo === 'pastor' || auth()->user()->tipo === 'lider')
