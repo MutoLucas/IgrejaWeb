@@ -18,7 +18,7 @@ class TablePessoaDptLider extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['addMembroDpt' => 'render', 'removeMembroDpt' => 'render'];
+    protected $listeners = ['addMembroDpt' => 'render', 'removeMembroDpt' => 'render', 'storeDpt' => 'render'];
 
     public $idPessoa;
     public $idDpt;

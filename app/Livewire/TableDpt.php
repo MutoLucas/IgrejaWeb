@@ -71,6 +71,7 @@ class TableDpt extends Component
                 'nome' => $this->nomeDpt
             ]);
 
+            $this->dispatch('storeDpt');
             $this->reset();
             $this->render();
         }

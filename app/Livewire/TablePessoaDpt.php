@@ -18,6 +18,7 @@ class TablePessoaDpt extends Component
 
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['storeDpt' => 'render'];
 
     public $idPessoa;
     public $idDpt;
