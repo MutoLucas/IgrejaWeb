@@ -10,17 +10,6 @@
                 <div class="col-sm">
                     <label for="Email" class="form-label">Email address</label>
                     <input type="email" value="{{ $user->email }}" class="form-control border-primary" id="email" name="email" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">Nós nunca iremos compartilhar seu e-mail.</div>
-                </div>
-
-                <div class="col-sm">
-                    <label for="password" class="form-label">Senha</label>
-                    <div class="input-group">
-                        <input disabled type="password" class="form-control border-primary" id="password" name="password">
-                        <button disabled class="btn btn-outline-secondary" type="button" id="togglePassword">
-                            Mostrar
-                        </button>
-                    </div>
                 </div>
 
                 <div class="col-sm">

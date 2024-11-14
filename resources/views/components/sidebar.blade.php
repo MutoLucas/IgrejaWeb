@@ -58,6 +58,7 @@
                         @elseif(auth()->user()->tipo == 'usuario' || auth()->user()->tipo == 'lider')
                         <li><a class="dropdown-item" href="{{ route('pedidos.index') }}"><i class="bi bi-receipt"></i> Solicitações</a></li>
                         @endif
+                        <li><a class="dropdown-item" href="{{ route('email.catch') }}"><i class="bi bi-key-fill"></i> Alterar Senha</a></li>
 
                         <li>
                             <hr class="dropdown-divider">
