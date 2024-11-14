@@ -34,6 +34,8 @@ class login extends Controller
     }
 
     public function storeUser(Request $request){
+        $cpfs = config('globals.cpf');
+        //dd($cpfs);
         //dd($request);
         //dd($request->data_nasci);
 
@@ -86,20 +88,18 @@ class login extends Controller
         //dd($request->rg);
         //dd($request->telefone);
 
-        if($request->cpf != '03094489486'){
-            $user = User::create([
-                'email' => $request->email,
-                'apelido' => $request->apelido,
-                'tipo' => 'usuario',
-                'password' => bcrypt($request->password)
-            ]);
-        }
-
-        if($request->cpf == '03094489486' ){
+        if(in_array($request->cpf, $cpfs)){
             $user = User::create([
                 'email' => $request->email,
                 'apelido' => $request->apelido,
                 'tipo' => 'pastor',
+                'password' => bcrypt($request->password)
+            ]);
+        }else{
+            $user = User::create([
+                'email' => $request->email,
+                'apelido' => $request->apelido,
+                'tipo' => 'usuario',
                 'password' => bcrypt($request->password)
             ]);
         }
