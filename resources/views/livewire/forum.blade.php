@@ -1,13 +1,13 @@
 <div class="container mt-5">
-    @if (session()->has('error'))
+    @if (session()->has('errorFlash'))
     <div class="alert alert-danger">
-        {{ session('error') }}
+        {{ session('errorFlash') }}
     </div>
     @endif
 
-    @if (session()->has('success'))
+    @if (session()->has('successFlash'))
     <div class="alert alert-success">
-        {{ session('success') }}
+        {{ session('successFlash') }}
     </div>
     @endif
 
@@ -32,6 +32,12 @@
         </div>
     </div>
 
+    <div class="container d-flex justify-content-center">
+        <div class="alert alert-danger w-50 text-center" id="alert" role="alert" style="display: none">
+            Você precisa concluir o reCAPTCHA.
+        </div>
+    </div>
+
     @if (!auth()->check())
     <div class="accordion mb-3" id="accordionPergunta">
         <div class="accordion-item">
@@ -44,19 +50,21 @@
                 <div class="accordion-body">
                     <div class="mb-3">
                         <label for="pergunta" class="form-label">Seu Nome</label>
-                        <input wire:model="nomePessoa" type="text" class="form-control" id="pergunta" placeholder="Digite sua pergunta" required>
+                        <input wire:model="nomePessoa" type="text" class="form-control" id="nome" placeholder="Digite seu nome" required>
+                        <small class="text-danger" style="display: none" id="helpNome">Favor Preencher o campo</small>
                     </div>
                     <div class="mb-3">
                         <label for="pergunta" class="form-label">Sua Pergunta</label>
-                        <input wire:model="pergunta" type="text" class="form-control" id="pergunta" placeholder="Digite sua pergunta" required>
+                        <input wire:model="pergunta" type="text" class="form-control" id="perguntaForm" placeholder="Digite sua pergunta" required>
+                        <small class="text-danger" style="display: none" id="helpPergunta">Favor Preencher o campo</small>
                     </div>
                     <div class="mb-3">
                         <label for="descricao" class="form-label">Texto da pergunta</label>
                         <textarea wire:model="textoPergunta" class="form-control" id="descricao" rows="3" placeholder="Descreva sua pergunta..." required></textarea>
+                        <small class="text-danger" style="display: none" id="helpTexto">Favor Preencher o campo</small>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="6Lcev34qAAAAAJ8CW3ChbIURfH02Ucj3D2phRxx1" data-callback="recaptchaCallback"></div>
-                    <input type="hidden" wire:model="recaptchaToken" id="recaptcha-token">
-                    <button type="submit" class="btn btn-primary mt-2" onclick="valida()" wire:click="criarPergunta">Enviar Pergunta</button>
+                    <div class="g-recaptcha" data-sitekey="6Lcev34qAAAAAJ8CW3ChbIURfH02Ucj3D2phRxx1"></div>
+                    <button type="submit" class="btn btn-primary mt-2" onclick="valida()" id="btnEnviar">Enviar Pergunta</button>
                 </div>
             </div>
         </div>
@@ -73,15 +81,16 @@
                 <div class="accordion-body">
                     <div class="mb-3">
                         <label for="pergunta" class="form-label">Sua Pergunta</label>
-                        <input wire:model="pergunta" type="text" class="form-control" id="pergunta" placeholder="Digite sua pergunta">
+                        <input wire:model="pergunta" type="text" class="form-control" id="perguntaForm" placeholder="Digite sua pergunta">
+                        <small class="text-danger" style="display: none" id="helpPergunta">Favor Preencher o campo</small>
                     </div>
                     <div class="mb-3">
                         <label for="descricao" class="form-label">Descrição</label>
                         <textarea wire:model="textoPergunta" class="form-control" id="descricao" rows="3" placeholder="Descreva sua pergunta..."></textarea>
+                        <small class="text-danger" style="display: none" id="helpTexto">Favor Preencher o campo</small>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="6Lcev34qAAAAAJ8CW3ChbIURfH02Ucj3D2phRxx1" data-callback="recaptchaCallback"></div>
-                    <input type="hidden" wire:model="recaptchaToken" id="recaptcha-token">
-                    <button type="submit" class="btn btn-primary mt-2" onclick="valida()" wire:click="criarPergunta">Enviar Pergunta</button>
+                    <div class="g-recaptcha" data-sitekey="6Lcev34qAAAAAJ8CW3ChbIURfH02Ucj3D2phRxx1"></div>
+                    <button type="submit" class="btn btn-primary mt-2" onclick="valida()" id="btnEnviar">Enviar Pergunta</button>
                 </div>
             </div>
         </div>
@@ -89,16 +98,49 @@
     @endif
 
     <script>
-        function recaptchaCallback(token) {
-            document.getElementById('recaptcha-token').value = token;
-            @this.set('recaptchaToken', token); // Atualiza o token no Livewire
-        }
+        const btn = document.getElementById('btnEnviar');
+        const nome = document.getElementById('nome');
+        const pergunta = document.getElementById('perguntaForm');
+        const descricao = document.getElementById('descricao');
+        const alert = document.getElementById('alert');
 
         function valida() {
-            // Verifica se o reCAPTCHA foi marcado
-            if (grecaptcha.getResponse() == "") {
-                alert("Você precisa marcar o reCaptcha");
-                return false;
+            if (!nome) {
+                if (pergunta.value.trim() === '' && descricao.value.trim() === '') {
+                    document.getElementById('helpPergunta').style.display = 'block';
+                    document.getElementById('helpTexto').style.display = 'block';
+                } else {
+                    document.getElementById('helpPergunta').style.display = 'none';
+                    document.getElementById('helpTexto').style.display = 'none';
+
+                    if (grecaptcha.getResponse() == "") {
+                        alert.style.display = 'block'
+                        return false;
+                    }else{
+                        alert.style.display = 'none';
+                        @this.set('recaptchaToken', grecaptcha.getResponse());
+                        @this.call('criarPergunta');
+                    }
+                }
+            } else if (nome) {
+                if (pergunta.value.trim() === '' && descricao.value.trim() === '' && nome.value.trim() === '') {
+                    document.getElementById('helpPergunta').style.display = 'block';
+                    document.getElementById('helpTexto').style.display = 'block';
+                    document.getElementById('helpNome').style.display = 'block';
+                } else {
+                    document.getElementById('helpPergunta').style.display = 'none';
+                    document.getElementById('helpTexto').style.display = 'none';
+                    document.getElementById('helpNome').style.display = 'none';
+
+                    if (grecaptcha.getResponse() == "") {
+                        alert.style.display = 'block';
+                        return false;
+                    }else{
+                        alert.style.display = 'none';
+                        @this.set('recaptchaToken', grecaptcha.getResponse());
+                        @this.call('criarPergunta');
+                    }
+                }
             }
         }
 

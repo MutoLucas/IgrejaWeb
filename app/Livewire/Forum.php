@@ -94,6 +94,7 @@ class Forum extends Component
 
         RespostaForum::where('pergunta_id',$idPergunta)->delete();
         PerguntaForum::where('id',$idPergunta)->delete();
+        session()->flash('successFlash','Pergunta Excluida com sucesso');
         $this->reset();
     }
 
@@ -110,13 +111,14 @@ class Forum extends Component
             ]);
 
             $this->reset();
-            Session()->flash('success','Resposta enviada com sucesso');
+            Session()->flash('successFlash','Resposta enviada com sucesso');
         }
     }
 
     public function excluirResposta($idResposta){
         RespostaForum::where('id',$idResposta)->delete();
         $this->reset();
+        session()->flash('successFlash','Resposta excluida com sucesso');
     }
 
     public function busca(){
