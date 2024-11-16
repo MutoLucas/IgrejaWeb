@@ -164,9 +164,9 @@
                 </button>
 
                 @if(auth()->check() && auth()->user()->tipo == 'pastor')
-                <button wire:click="excluirPergunta({{ $pergunta->id }})" class="btn btn-outline-danger btn-sm">
-                    <i class="bi bi-trash"></i> Excluir Pergunta
-                </button>
+                    <button wire:click="excluirPergunta({{ $pergunta->id }})" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-trash"></i> Excluir Pergunta
+                    </button>
                 @endif
             </div>
 
@@ -175,7 +175,11 @@
                     @forelse ($respostas->where('pergunta_id', $pergunta->id) as $resposta)
                     <div class="border-bottom mb-2 p-2 rounded-3 bg-light">
                         <p><strong class="fs-5">Resposta de {{ $resposta->nome }}:</strong> {{ $resposta->resposta }}</p>
-                        <small class="text-muted">Respondido em {{ $resposta->created_at->format('d/m/Y H:i') }} <button class="btn btn-sm btn-outline-danger" wire:click="excluirResposta({{ $resposta->id }})">Excluir Resposta</button></small>
+                        <small class="text-muted">Respondido em {{ $resposta->created_at->format('d/m/Y H:i') }}
+                            @if (auth()->check() && (auth()->user()->tipo == 'pastor'))
+                            <button class="btn btn-sm btn-outline-danger" wire:click="excluirResposta({{ $resposta->id }})">Excluir Resposta</button>
+                            @endif
+                        <small>
                     </div>
                     @empty
                     <div class="border-bottom mb-2 p-2 rounded-3 bg-light text-muted">
