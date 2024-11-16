@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Departamento;
+use App\Models\DepartamentoUsuario as DU;
 use App\Models\Evento;
 use App\Models\lider;
 use Carbon\Carbon;
@@ -116,6 +117,12 @@ class Calendario extends Component
 
     public function storeEvento(){
         $dataHoje = Carbon::now();
+        $pertence = DU::where('user_id',$this->idPessoa)->where('departamento_id',$this->idDpt)->get();
+        //dd($pertence->count());
+
+        if($pertence->count() < 1){
+            return redirect()->route('calendario.index')->with('error','Este membro não pertence a este departamento');
+        }
 
         if($this->dataEvento < $dataHoje){
             return redirect()->route('calendario.index')->with('error','A data não pode ser inferior a data de hoje');
