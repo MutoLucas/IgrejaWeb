@@ -155,8 +155,8 @@
 
         </div>
         <div class="card-body">
-            <h5 class="card-title">{{ $pergunta->pergunta }}</h5>
-            <p class="card-text">{{ $pergunta->texto }}</p>
+            <h5 class="card-title fs-4 fw-bold">{{ $pergunta->pergunta }}</h5>
+            <p class="card-text fs-6">{{ $pergunta->texto }}</p>
 
             <div class="d-flex justify-content-between">
                 <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#respostas{{ $pergunta->id }}" aria-expanded="false" aria-controls="respostas{{ $pergunta->id }}">
@@ -174,8 +174,8 @@
                 <div class="card card-body border-0">
                     @forelse ($respostas->where('pergunta_id', $pergunta->id) as $resposta)
                     <div class="border-bottom mb-2 p-2 rounded-3 bg-light">
-                        <p><strong class="fs-5">Resposta de {{ $resposta->nome }}:</strong> {{ $resposta->resposta }}</p>
-                        <small class="text-muted">Respondido em {{ $resposta->created_at->format('d/m/Y H:i') }}
+                        <p class="fs-5"><strong class="fs-4">Resposta de {{ $resposta->nome }}:</strong> {{ $resposta->resposta }}</p>
+                        <small class="text-muted fs-6">Respondido em {{ $resposta->created_at->format('d/m/Y H:i') }}
                             @if (auth()->check() && (auth()->user()->tipo == 'pastor'))
                             <button class="btn btn-sm btn-outline-danger" wire:click="excluirResposta({{ $resposta->id }})">Excluir Resposta</button>
                             @endif
@@ -183,7 +183,7 @@
                     </div>
                     @empty
                     <div class="border-bottom mb-2 p-2 rounded-3 bg-light text-muted">
-                        <p><strong>Sem respostas ainda</strong></p>
+                        <p class="fs-3"><strong>Sem respostas ainda</strong></p>
                     </div>
                     @endforelse
 
