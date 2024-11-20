@@ -63,7 +63,7 @@
                         <textarea wire:model="textoPergunta" class="form-control" id="descricao" rows="3" placeholder="Descreva sua pergunta..." required></textarea>
                         <small class="text-danger" style="display: none" id="helpTexto">Favor Preencher o campo</small>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="6Lcev34qAAAAAJ8CW3ChbIURfH02Ucj3D2phRxx1"></div>
+                    <div class="g-recaptcha" data-sitekey="{{ config('globals.recaptchaForum') }}"></div>
                     <button type="submit" class="btn btn-primary mt-2" onclick="valida()" id="btnEnviar">Enviar Pergunta</button>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                         <textarea wire:model="textoPergunta" class="form-control" id="descricao" rows="3" placeholder="Descreva sua pergunta..."></textarea>
                         <small class="text-danger" style="display: none" id="helpTexto">Favor Preencher o campo</small>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="6Lcev34qAAAAAJ8CW3ChbIURfH02Ucj3D2phRxx1"></div>
+                    <div class="g-recaptcha" data-sitekey="{{ config('globals.recaptchaForum') }}"></div>
                     <button type="submit" class="btn btn-primary mt-2" onclick="valida()" id="btnEnviar">Enviar Pergunta</button>
                 </div>
             </div>

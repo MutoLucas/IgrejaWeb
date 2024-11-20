@@ -47,7 +47,7 @@ class Calendario extends Component
     public function render()
     {
         if(auth()->user()->tipo == 'pastor' || auth()->user()->tipo == 'admin'){
-            $allUser = User::where('id', '!=', 1)->get();
+            $allUser = User::where('id', '!=', 1)->where('tipo','!=','pastor')->get();
             //dd($allUser);
 
             $allDpt = Departamento::get();
@@ -66,7 +66,7 @@ class Calendario extends Component
             return view('livewire.calendario', ['allUser' => $allUser, 'allDpt' => $allDpt, 'eventos' => $query]);
         }elseif(auth()->user()->tipo == 'lider'){
             //Pegando todos os usuarios
-            $allUser = User::where('id', '!=', 1)->where('id', '!=', auth()->user()->id)->get();
+            $allUser = User::where('id', '!=', 1)->where('id', '!=', auth()->user()->id)->where('tipo','!=','pastor')->get();
             //dd($allUser);
 
             $allDpt = lider::join('departamentos', 'departamentos.id', '=', 'lideres.departamento_id')
@@ -126,6 +126,11 @@ class Calendario extends Component
 
         if($this->dataEvento < $dataHoje){
             return redirect()->route('calendario.index')->with('error','A data não pode ser inferior a data de hoje');
+        }
+
+        $tipoUser = User::where('id',$this->idPessoa);
+        if($tipoUser->tipo === 'pastor'){
+            return redirect()->route('calendario.index')->with('error','Pastores não servem nos departamentos');
         }
 
         $lider = lider::where('user_id',$this->idPessoa)->where('departamento_id',$this->idDpt)->get();

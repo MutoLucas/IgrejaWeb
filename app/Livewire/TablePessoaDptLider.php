@@ -34,7 +34,7 @@ class TablePessoaDptLider extends Component
 
     public function render(){
         //Pegando todos os usuarios
-        $allUser = User::where('id', '!=', 1)->where('id', '!=', auth()->user()->id)->get();
+        $allUser = User::where('id', '!=', 1)->where('id', '!=', auth()->user()->id)->where('tipo','!=','pastor')->get();
         //dd($allUser);
 
         $allDpt = lider::join('departamentos', 'departamentos.id', '=', 'lideres.departamento_id')

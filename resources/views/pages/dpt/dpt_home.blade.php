@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'VerboWeb - Departamentos')
+@section('title', 'IgrejaWeb - Departamentos')
 
 @section('content')
 

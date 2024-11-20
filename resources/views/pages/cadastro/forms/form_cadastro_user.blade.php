@@ -120,7 +120,7 @@
     </script>
 </div>
 
-<div class="g-recaptcha mb-2" data-sitekey="6LdGCxkqAAAAAMQ627S_gX0E4PVD2kd7sV9Bzxxy"></div>
+<div class="g-recaptcha mb-2" data-sitekey="{{ config('globals.recaptchaCadastro') }}"></div>
 
 
 <button id="btn-cadastrar" class="btn btn-primary" onclick="return valida()" disabled>
@@ -233,4 +233,4 @@
         }
     }
 
-</script>   
+</script>

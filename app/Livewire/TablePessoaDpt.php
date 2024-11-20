@@ -34,7 +34,7 @@ class TablePessoaDpt extends Component
 
     public function render(){
         //Pegando todos os usuarios
-        $allUser = User::where('id', '!=', 1)->get();
+        $allUser = User::where('id', '!=', 1)->where('tipo','!=','pastor')->get();
         //dd($allUser);
 
         $allDpt = Departamento::get();

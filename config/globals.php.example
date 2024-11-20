@@ -1,0 +1,9 @@
+<?php
+
+return [
+    'cpf' => ['cpf1', 'cpf2', 'cpf3...'],
+    'recaptchaCadastro' => '<data-sitekey para pagina de cadastro>',
+    'recaptchaForum' => '<data-sitekey para pagina do forum>'
+];
+
+?>
