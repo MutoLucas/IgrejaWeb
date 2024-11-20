@@ -128,7 +128,8 @@ class Calendario extends Component
             return redirect()->route('calendario.index')->with('error','A data não pode ser inferior a data de hoje');
         }
 
-        $tipoUser = User::where('id',$this->idPessoa);
+        $tipoUser = User::where('id',$this->idPessoa)->first();
+        //dd($tipoUser);
         if($tipoUser->tipo === 'pastor'){
             return redirect()->route('calendario.index')->with('error','Pastores não servem nos departamentos');
         }
