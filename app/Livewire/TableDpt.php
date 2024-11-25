@@ -40,7 +40,7 @@ class TableDpt extends Component
             if($this->busca){
                 $allDpts = lider::join('departamentos', 'departamentos.id', '=', 'lideres.departamento_id')
                 ->select('lideres.*', 'departamentos.*')
-                ->where('departamento.nome','like','%'.$this->busca.'%')
+                ->where('departamentos.nome','like','%'.$this->busca.'%')
                 ->where('lideres.user_id',auth()->user()->id)
                 ->paginate(4);
             }else{

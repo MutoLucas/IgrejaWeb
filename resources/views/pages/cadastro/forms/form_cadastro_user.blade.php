@@ -120,7 +120,7 @@
     </script>
 </div>
 
-<div class="g-recaptcha mb-2" data-sitekey="{{ config('globals.recaptchaCadastro') }}"></div>
+<div class="g-recaptcha mb-2" data-sitekey="{{ config('globals.recaptchaCadastro1') }}"></div>
 
 
 <button id="btn-cadastrar" class="btn btn-primary" onclick="return valida()" disabled>

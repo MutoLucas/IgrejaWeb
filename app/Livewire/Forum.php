@@ -48,7 +48,7 @@ class Forum extends Component
             return back()->with('error', 'Você precisa responder o reCaptcha');
         }else{
             $url = "https://www.google.com/recaptcha/api/siteverify";
-            $secret = "6Lcev34qAAAAAJUMzuFtLtQe_0mtRFT73j1Vlcqh";
+            $secret = config('globals.recaptchaForum2');
             $response = $this->recaptchaToken;
 
             $call = curl_init($url);

@@ -43,7 +43,7 @@ class login extends Controller
             return back()->with('error', 'Você precisa responder o reCaptcha');
         }else{
             $url = "https://www.google.com/recaptcha/api/siteverify";
-            $secret = "6LdGCxkqAAAAAFnLtlwOvwkV1nIRbfMsUQGzJS0g";
+            $secret = config('globals.recaptchaCadastro2');
             $response = $request['g-recaptcha-response'];
 
             $call = curl_init($url);
